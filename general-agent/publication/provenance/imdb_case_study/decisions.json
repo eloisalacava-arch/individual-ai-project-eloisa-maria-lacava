@@ -1,0 +1,229 @@
+{
+  "created_at": "2026-11-16T18:48:31.243651+00:00",
+  "decisions": [
+    "dataset ID: 'review_id' (set explicitly in dataset.id_column)",
+    "dataset text: 'text' (set explicitly in dataset.text_column)",
+    "benchmark ID: 'review_id' (set explicitly in benchmark.id_column)",
+    "benchmark label: 'human_sentiment' (set explicitly in benchmark.label_column)",
+    "benchmark label: 'human_sentiment' maps onto all declared classes ['positive', 'negative'] (label_map applied)"
+  ],
+  "declared_classes": [
+    "positive",
+    "negative"
+  ],
+  "label_map": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "profiles": {
+    "benchmark": [
+      {
+        "dtype": "str",
+        "examples": [
+          "rev_bb4c9ca4",
+          "rev_9f80b663",
+          "rev_ba1757c8"
+        ],
+        "max_chars": 12,
+        "mean_chars": 12.0,
+        "median_chars": 12.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 200,
+        "name": "review_id",
+        "unique_ratio": 1.0
+      },
+      {
+        "dtype": "str",
+        "examples": [
+          "positive",
+          "negative"
+        ],
+        "max_chars": 8,
+        "mean_chars": 8.0,
+        "median_chars": 8.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "human_sentiment",
+        "unique_ratio": 0.01
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "0",
+          "1"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "human_sarcasm",
+        "unique_ratio": 0.01
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "0",
+          "1"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "human_mixed",
+        "unique_ratio": 0.01
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "0",
+          "1"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "human_ambiguous",
+        "unique_ratio": 0.01
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "0",
+          "1"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "human_complex",
+        "unique_ratio": 0.01
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "1",
+          "0"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "human_straightforward",
+        "unique_ratio": 0.01
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "0",
+          "2",
+          "1"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 3,
+        "name": "uncertainty_sentiment",
+        "unique_ratio": 0.015
+      },
+      {
+        "dtype": "int64",
+        "examples": [
+          "1",
+          "0"
+        ],
+        "max_chars": 1,
+        "mean_chars": 1.0,
+        "median_chars": 1.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 2,
+        "name": "imdb_label",
+        "unique_ratio": 0.01
+      }
+    ],
+    "dataset": [
+      {
+        "dtype": "str",
+        "examples": [
+          "rev_bb4c9ca4",
+          "rev_9f80b663",
+          "rev_ba1757c8"
+        ],
+        "max_chars": 12,
+        "mean_chars": 12.0,
+        "median_chars": 12.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 200,
+        "name": "review_id",
+        "unique_ratio": 1.0
+      },
+      {
+        "dtype": "str",
+        "examples": [
+          "<redacted: source text>"
+        ],
+        "max_chars": 3772,
+        "mean_chars": 1143.1,
+        "median_chars": 940.0,
+        "n_blank_or_null": 0,
+        "n_present": 200,
+        "n_rows": 200,
+        "n_unique": 200,
+        "name": "text",
+        "unique_ratio": 1.0
+      }
+    ]
+  },
+  "questions": [],
+  "references": [
+    "human_sentiment",
+    "imdb_label"
+  ],
+  "resolved_mapping": {
+    "extra_label_columns": [
+      "imdb_label"
+    ],
+    "id_column": "review_id",
+    "id_column_benchmark": "review_id",
+    "label_column": "human_sentiment",
+    "text_column": "text"
+  },
+  "run_id": "imdb_case_study",
+  "stats": {
+    "id_alignment": {
+      "n_benchmark_ids": 200,
+      "n_dataset_ids": 200,
+      "n_matched": 200,
+      "n_only_benchmark": 0,
+      "n_only_dataset": 0,
+      "only_benchmark_examples": [],
+      "only_dataset_examples": []
+    }
+  },
+  "status": "resolved"
+}

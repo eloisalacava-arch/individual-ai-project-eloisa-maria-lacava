@@ -1,0 +1,412 @@
+{
+  "all_inputs_present": true,
+  "budget": {
+    "max_calls": 305,
+    "max_usd": 0.5,
+    "price_per_million": {
+      "input": 0.036,
+      "output": 0.5
+    }
+  },
+  "checks": {
+    "failed": [],
+    "passed": 11,
+    "status": "PASS",
+    "total": 11
+  },
+  "class_names": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "config": {
+    "path": "<project-root>/general-agent/configs/case2_phrasebank.yaml",
+    "sha256": "a24767e8a8c71e27b2f47a7ddc421b818e5a3e6fd5b4caee2d52ee5ae74504b0"
+  },
+  "created_at": "2026-11-16T18:48:31.921873+00:00",
+  "decisions_sha256": "1bf786038301cdea85093bae820dd65e055a40a18168eb057f91fad85f30fe14",
+  "defaults_applied": {
+    "benchmark": {
+      "delimiter": ",",
+      "encoding": "utf-8"
+    },
+    "dataset": {
+      "delimiter": ",",
+      "encoding": "utf-8"
+    }
+  },
+  "documented_defaults": {
+    "benchmark": {
+      "allow_duplicate_ids": false,
+      "delimiter": ",",
+      "encoding": "utf-8",
+      "extra_label_columns": [],
+      "format": "auto",
+      "on_id_mismatch": "error",
+      "on_unknown_label": "error"
+    },
+    "budget": {
+      "max_usd": null
+    },
+    "dataset": {
+      "delimiter": ",",
+      "encoding": "utf-8",
+      "format": "auto"
+    },
+    "evaluation": {
+      "abstention_policy": [
+        "exclude",
+        "count_as_error"
+      ],
+      "bootstrap_draws": 2000,
+      "ci_level": 0.95,
+      "kappa": [
+        "unweighted"
+      ],
+      "subgroup_columns": []
+    },
+    "labels": {
+      "mode": "single_label",
+      "ordered": false
+    },
+    "model": {
+      "concurrency": 1,
+      "max_attempts": 3,
+      "timeout_s": 180
+    },
+    "pilot": {
+      "n": 5
+    },
+    "run": {
+      "output_root": "runs"
+    },
+    "sample": {
+      "method": "random",
+      "n": null,
+      "unique_text": true
+    },
+    "task": {
+      "forbid_outside_knowledge": true
+    }
+  },
+  "git_commit": null,
+  "inputs": {
+    "benchmark": {
+      "bytes": 70376,
+      "exists": true,
+      "path": "<project-root>/general-agent/inputs/financial_phrasebank/75agree/benchmark.csv",
+      "sha256": "8818cdf6eb1d10db6b2416adedd3835bd879019fd0724e97a8f2067340522faf"
+    },
+    "dataset": {
+      "bytes": 483070,
+      "exists": true,
+      "path": "<project-root>/general-agent/inputs/financial_phrasebank/75agree/dataset.csv",
+      "sha256": "43de252f278177b490003bab72eb193a31995f29781f5c4a86ba3951f385abab"
+    },
+    "predictions": null
+  },
+  "label_distributions": {
+    "label": {
+      "negative": 420,
+      "neutral": 2146,
+      "positive": 887
+    }
+  },
+  "last_stage": "00_configure",
+  "model": {
+    "name": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+    "provider": "opencode_cli",
+    "temperature_requested": null,
+    "temperature_status": "not_requested"
+  },
+  "paths": {
+    "benchmark": {
+      "bytes": 70376,
+      "exists": true,
+      "path": "<project-root>/general-agent/inputs/financial_phrasebank/75agree/benchmark.csv",
+      "sha256": "8818cdf6eb1d10db6b2416adedd3835bd879019fd0724e97a8f2067340522faf"
+    },
+    "dataset": {
+      "bytes": 483070,
+      "exists": true,
+      "path": "<project-root>/general-agent/inputs/financial_phrasebank/75agree/dataset.csv",
+      "sha256": "43de252f278177b490003bab72eb193a31995f29781f5c4a86ba3951f385abab"
+    },
+    "predictions": null
+  },
+  "phase": "01_audit",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "predictions": null,
+  "python": "3.14.6",
+  "references": [
+    "label"
+  ],
+  "row_accounting": [],
+  "row_counts": {
+    "benchmark_analysed": 3453,
+    "benchmark_input": 3453,
+    "dataset_analysed": 3453,
+    "dataset_input": 3453,
+    "duplicate_text": 5,
+    "matched_ids": 3453
+  },
+  "run_id": "phrasebank_75agree",
+  "seed": 20261116,
+  "stages": {
+    "00_configure": {
+      "all_inputs_present": true,
+      "config_sha256": "a24767e8a8c71e27b2f47a7ddc421b818e5a3e6fd5b4caee2d52ee5ae74504b0",
+      "finished_at": "2026-11-16T18:53:36.279206+00:00"
+    },
+    "01_audit": {
+      "checks": {
+        "failed": [],
+        "passed": 11,
+        "status": "PASS",
+        "total": 11
+      },
+      "decisions_sha256": "1bf786038301cdea85093bae820dd65e055a40a18168eb057f91fad85f30fe14",
+      "finished_at": "2026-11-16T18:48:31.951661+00:00",
+      "row_accounting": [],
+      "row_counts": {
+        "benchmark_analysed": 3453,
+        "benchmark_input": 3453,
+        "dataset_analysed": 3453,
+        "dataset_input": 3453,
+        "duplicate_text": 5,
+        "matched_ids": 3453
+      },
+      "warnings": []
+    },
+    "02_blind": {
+      "blind_dir_entries": [
+        "blind.csv"
+      ],
+      "blind_path": "<project-root>/general-agent/runs/phrasebank_75agree/blind/blind.csv",
+      "blind_sha256": "cd41ca2e8488605be96194de25c17ef14818e28b16c0188d04414da1ca3f3be5",
+      "class_names": [
+        "negative",
+        "neutral",
+        "positive"
+      ],
+      "finished_at": "2026-11-16T18:48:32.169858+00:00",
+      "reference_columns": [
+        "label"
+      ],
+      "rows_benchmark_in": 3453,
+      "rows_benchmark_sealed": 300,
+      "rows_in": 3453,
+      "rows_selected": 300,
+      "sample": {
+        "method": "random",
+        "requested_n": 300,
+        "selected_n": 300,
+        "stratified": false,
+        "unique_text": true
+      },
+      "sealed_sha256": "c64a22e37d33eb79502a5787b3b7614efa5f692d7ed3d0bed8d335ad17fcba83",
+      "subgroup_columns": []
+    },
+    "03_pilot": {
+      "attempt_log": "<project-root>/general-agent/runs/phrasebank_75agree/pilot/pilot_attempts.jsonl",
+      "blind_sha256": "cd41ca2e8488605be96194de25c17ef14818e28b16c0188d04414da1ca3f3be5",
+      "calls_full": 0,
+      "calls_pilot": 0,
+      "calls_used_total": 5,
+      "estimated_usd": 7.7e-05,
+      "estimated_usd_note": "rough estimate from characters/4 and 12 output tokens; not billing data",
+      "finished_at": "2026-11-16T18:48:53.544223+00:00",
+      "max_calls": 305,
+      "mode": "pilot",
+      "n_rows": 5,
+      "predictions_path": "<project-root>/general-agent/runs/phrasebank_75agree/pilot/pilot_predictions.csv",
+      "predictions_sha256": "9d139699526948784725a3849b0a3587d35ddb2bccb5626516492ede48c59f0d",
+      "prompt_template_sha": "c6f9a2578080634ef4dc1a2786ead064eb1d6cd045572b995f96210e000f5d04",
+      "provider": {
+        "cli_path": "/Applications/OpenCode.app/Contents/Resources/opencode-cli",
+        "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+        "provider": "opencode_cli",
+        "supports_temperature": false,
+        "temperature_requested": null,
+        "temperature_status": "not_requested"
+      },
+      "sealed_locked_during_run": true,
+      "status_counts": {
+        "ok": 5
+      },
+      "stopped_reason": null
+    },
+    "04_classify": {
+      "actual_usd": 0.03256141,
+      "actual_usd_source": "sum of provider-reported per-call cost from the attempt logs",
+      "attempt_log": "<project-root>/general-agent/runs/phrasebank_75agree/logs/attempts.jsonl",
+      "blind_sha256": "cd41ca2e8488605be96194de25c17ef14818e28b16c0188d04414da1ca3f3be5",
+      "calls_full": 300,
+      "calls_pilot": 5,
+      "calls_used_total": 305,
+      "estimated_usd": 0.004759,
+      "estimated_usd_note": "rough estimate from characters/4 and 12 output tokens; not billing data",
+      "finished_at": "2026-11-16T19:03:23.697757+00:00",
+      "max_calls": 320,
+      "mode": "full",
+      "n_rows": 300,
+      "predictions_path": "<project-root>/general-agent/runs/phrasebank_75agree/predictions.csv",
+      "predictions_sha256": "d5930064ea792c92b5f1ce16792c66c95a9352c64dca2d97fac19bd4b8f6a735",
+      "prompt_template_sha": "c6f9a2578080634ef4dc1a2786ead064eb1d6cd045572b995f96210e000f5d04",
+      "provider": {
+        "cli_path": "/Applications/OpenCode.app/Contents/Resources/opencode-cli",
+        "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+        "provider": "opencode_cli",
+        "supports_temperature": false,
+        "temperature_requested": null,
+        "temperature_status": "not_requested"
+      },
+      "sealed_locked_during_run": true,
+      "status_counts": {
+        "ok": 300
+      },
+      "stopped_reason": null,
+      "token_totals": {
+        "cache_read": 2062208,
+        "cache_write": 0,
+        "input": 65523,
+        "output": 1220,
+        "reasoning": 17941
+      }
+    },
+    "05_evaluate": {
+      "accuracy": 0.9133333333333333,
+      "benchmark_read_at": "2026-11-16T19:23:00.591225+00:00",
+      "bootstrap_draws": 2000,
+      "checks": {
+        "failed": [],
+        "passed": 13,
+        "status": "PASS",
+        "total": 13
+      },
+      "finished_at": "2026-11-16T19:23:00.786048+00:00",
+      "kappa_quadratic": 0.8457334273624822,
+      "kappa_unweighted": 0.8414053922166647,
+      "results_dir": "<project-root>/general-agent/runs/phrasebank_75agree/results",
+      "row_counts": {
+        "analysed_rows": 300,
+        "benchmark_rows": 300,
+        "dropped_predictions": 0,
+        "excluded_not_ok": 0,
+        "extra_references": [],
+        "matched_rows": 300,
+        "only_in_benchmark": 0,
+        "only_in_predictions": 0,
+        "predictions_rows": 300
+      },
+      "seed": 20261116,
+      "tables": [
+        "t01_join_and_sample.csv",
+        "t02_accuracy.csv",
+        "t03_kappa.csv",
+        "t04_confusion_matrix.csv",
+        "t05_per_class_metrics.csv",
+        "t06_class_distribution.csv",
+        "t07_ordinal_errors.csv",
+        "t08_disagreements.csv",
+        "t09_category_summary.csv",
+        "t10_error_status.csv"
+      ]
+    },
+    "05_freeze": {
+      "frozen_at": "2026-11-16T19:23:00.590707+00:00",
+      "frozen_sha256": "d5930064ea792c92b5f1ce16792c66c95a9352c64dca2d97fac19bd4b8f6a735",
+      "n_rows": 300,
+      "source_sha256": "d5930064ea792c92b5f1ce16792c66c95a9352c64dca2d97fac19bd4b8f6a735",
+      "status_counts": {
+        "ok": 300
+      }
+    },
+    "06_disagreements": {
+      "analysed_rows": 300,
+      "blind_sha256": "cd41ca2e8488605be96194de25c17ef14818e28b16c0188d04414da1ca3f3be5",
+      "extra_references": [],
+      "finished_at": "2026-11-16T19:23:01.059688+00:00",
+      "length_test_p": 0.39016098390160986,
+      "n_disagreements": 26,
+      "tables": [
+        "t11_disagreement_pairs.csv",
+        "t12_text_profile.csv",
+        "t12b_length_test.csv",
+        "t13_reference_agreement.csv",
+        "disagreement_log.txt"
+      ]
+    },
+    "08_qualitative": {
+      "actual_usd": 0.00870872,
+      "calls_full": 32,
+      "calls_pilot": 4,
+      "calls_used_total": 36,
+      "estimated_usd": 0.008586,
+      "estimated_usd_note": "rough estimate from characters/4 and 300 output tokens; not billing data",
+      "explanations_path": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/explanations.csv",
+      "explanations_sha256": "98c10db2f62b3e132e45d540d3af83207404f3f2392cb708c3b891bfa63b564f",
+      "finished_at": "2026-11-17T11:43:21.643792+00:00",
+      "hypotheses_only": true,
+      "max_calls": 60,
+      "mode": "full",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+      "n_rows": 35,
+      "pilot": {
+        "agreements": 1,
+        "disagreements": 2
+      },
+      "prompt_template_hashes": {
+        "agreement": "bdaa025512a50238dfd22068192e791e53c68a47f3b48114cd2d01f2ccd8bad4",
+        "disagreement": "780f3b3fc3c77e20ed24901eb4aea703aaedb6403f246283c3ca1d95c2ac6df4"
+      },
+      "provider": {
+        "cli_path": "/Applications/OpenCode.app/Contents/Resources/opencode-cli",
+        "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+        "provider": "opencode_cli",
+        "supports_temperature": false,
+        "temperature_requested": null,
+        "temperature_status": "not_requested"
+      },
+      "sample": {
+        "control_n": 10,
+        "method": "random",
+        "n": 25,
+        "seed": 20261116
+      },
+      "seeded_from_pilot": 3,
+      "selection_signature": "{\"control_n\": 10, \"method\": \"random\", \"n\": 25, \"prompt_version\": 1, \"seed\": 20261116, \"study\": \"7bf1eaffbfb5b743d6d8a2477f991624c8c49104d8048988b05cd8b88e6e3eb9\", \"vocabulary_version\": 1}",
+      "status_counts": {
+        "ok": 35
+      },
+      "stopped_reason": null,
+      "vocabulary_version": 1
+    },
+    "08_qualitative_report": {
+      "finished_at": "2026-11-20T11:31:01.245994+00:00",
+      "hypotheses_only": true,
+      "narrative_path": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/narrative_report.md",
+      "narrative_sha256": "c512277f14d77d45acdabbfb9c28fa2d8cfc3ddf0e62494c7cbfbb1c753843b0",
+      "tables": {
+        "contrast": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/tables/q07_reason_contrast.csv",
+        "cooccurrence": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/tables/q03_cooccurrence.csv",
+        "coverage": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/tables/q05_coverage.csv",
+        "examples": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/tables/q04_examples.csv",
+        "patterns": "<project-root>/general-agent/runs/phrasebank_75agree/qualitative/tables/q02_patterns.csv"
+      }
+    }
+  },
+  "text_summary": {
+    "max_chars": 315,
+    "median_chars": 116.0,
+    "min_chars": 9,
+    "n": 3453,
+    "n_blank": 0
+  },
+  "tool": {
+    "name": "general-agent",
+    "version": "0.2.0"
+  },
+  "updated_at": "2026-11-20T11:31:01.246229+00:00",
+  "warnings": []
+}

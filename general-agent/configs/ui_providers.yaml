@@ -1,0 +1,59 @@
+# ---------------------------------------------------------------------------
+# Provider and model allow-list for the Streamlit interface (app/).
+#
+# The interface only offers models listed here. It never accepts a key, and it
+# never reads or displays the value of an environment variable: it only reports
+# whether the named variable is present. Add a provider by copying a block.
+#
+# Fields:
+#   id            short identifier used in the session state
+#   label         what the dropdown shows
+#   provider      engine provider: opencode_cli | openai_compatible
+#   enabled       false hides the entry without deleting it (default true)
+#   base_url      openai_compatible only
+#   api_key_env   openai_compatible only: NAME of the environment variable
+#   models[].name exact provider/model string recorded in every log line
+#   models[].label        what the dropdown shows
+#   models[].price_per_million  catalogue price; a cost guardrail, not billing
+#   models[].max_calls    hard ceiling the interface will not exceed
+# ---------------------------------------------------------------------------
+
+providers:
+  - id: opencode
+    label: "OpenCode CLI (local)"
+    provider: opencode_cli
+    enabled: true
+    access_note: >-
+      Uses the signed-in OpenCode account on this machine. No key is stored by
+      this interface, and the provider reports its own per-call cost.
+    models:
+      - name: openrouter/deepseek/deepseek-v4.1-flash-1017
+        label: "DeepSeek V4.1 Flash"
+        price_per_million:
+          input: 0.036
+          output: 0.50
+        max_calls: 500
+      - name: openrouter/deepseek/deepseek-v4.1
+        label: "DeepSeek V4.1"
+        price_per_million:
+          input: 0.14
+          output: 0.28
+        max_calls: 500
+
+  - id: openai-example
+    label: "OpenAI-compatible endpoint (configure me)"
+    provider: openai_compatible
+    enabled: false
+    base_url: "https://api.example.com/v1"
+    api_key_env: "EXAMPLE_API_KEY"
+    access_note: >-
+      The key is read from the server environment variable named above and is
+      never entered or displayed here. Set enabled: true and correct base_url
+      and api_key_env before use.
+    models:
+      - name: "example/model"
+        label: "Example model"
+        price_per_million:
+          input: 1.0
+          output: 2.0
+        max_calls: 200

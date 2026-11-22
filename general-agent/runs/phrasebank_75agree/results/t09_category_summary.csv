@@ -1,0 +1,4 @@
+reference_class,n,n_correct,n_disagreements,recall,recall_ci_low,recall_ci_high,disagreements_to_negative,disagreements_to_neutral,disagreements_to_positive,most_common_error_target
+negative,38,37,1,0.973684,0.865051,0.995339,0,1,0,neutral
+neutral,182,171,11,0.939560,0.895029,0.965920,4,0,7,positive
+positive,80,66,14,0.825000,0.727425,0.892794,3,11,0,neutral

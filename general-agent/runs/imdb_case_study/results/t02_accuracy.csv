@@ -1,0 +1,2 @@
+n,n_correct,accuracy,accuracy_ci_low,accuracy_ci_high,accuracy_ci_method,balanced_accuracy,ba_ci_low,ba_ci_high,ba_ci_method,bootstrap_draws,bootstrap_valid_draws_ba,seed,ci_level
+200,194,0.970000,0.936106,0.986180,wilson,0.969673,0.943910,0.990385,bootstrap_percentile,2000,2000,20261116,0.950000

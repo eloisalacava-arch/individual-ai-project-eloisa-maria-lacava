@@ -1,0 +1,37 @@
+# Pilot-only qualitative settings for the IMDb case study.
+#
+# Prepared for: all 6 disagreements + a seeded control sample of 10 agreements.
+# This first step runs only the 3-item pilot (2 disagreements + 1 agreement).
+# Retries are disabled (max_attempts: 1) so exactly three model calls are made.
+# A later, separately approved step can raise max_attempts for the full run.
+study_config:
+  path: ../../../configs/imdb_case_study.yaml
+  sha256: c850923fe261347d38e8fd443a340a6df3cb21e913c4305402d57c608fce4e3e
+
+model:
+  provider: opencode_cli
+  name: openrouter/deepseek/deepseek-v4.1-flash-1017
+  temperature: null
+  timeout_s: 180
+  max_attempts: 2
+  concurrency: 1
+
+sample:
+  n: 6            # every disagreement in this study
+  control_n: 10   # seeded control sample of agreements
+  method: random
+  seed: 20261116
+
+pilot:
+  disagreements: 2
+  agreements: 1
+
+budget:
+  max_calls: 40
+  max_usd: 0.10
+  price_per_million:
+    input: 0.036
+    output: 0.50
+
+prompt_version: 1
+vocabulary_version: 1

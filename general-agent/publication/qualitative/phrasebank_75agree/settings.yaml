@@ -1,0 +1,36 @@
+# Pilot-only qualitative settings for the Financial PhraseBank case study.
+#
+# Authorised: a 3-item pilot (2 disagreements + 1 agreement control). Retries are
+# disabled (max_attempts: 1) so exactly three model calls are made. This file was
+# created for the pilot and does not change any statistical result.
+study_config:
+  path: ../../../configs/case2_phrasebank.yaml
+  sha256: 7bf1eaffbfb5b743d6d8a2477f991624c8c49104d8048988b05cd8b88e6e3eb9
+
+model:
+  provider: opencode_cli
+  name: openrouter/deepseek/deepseek-v4.1-flash-1017
+  temperature: null
+  timeout_s: 180
+  max_attempts: 2
+  concurrency: 1
+
+sample:
+  n: 25
+  control_n: 10
+  method: random
+  seed: 20261116
+
+pilot:
+  disagreements: 2
+  agreements: 1
+
+budget:
+  max_calls: 60
+  max_usd: 0.10
+  price_per_million:
+    input: 0.036
+    output: 0.50
+
+prompt_version: 1
+vocabulary_version: 1

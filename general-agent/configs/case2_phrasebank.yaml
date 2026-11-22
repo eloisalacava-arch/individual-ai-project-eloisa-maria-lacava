@@ -1,0 +1,118 @@
+# ---------------------------------------------------------------------------
+# Case study 2 - Financial PhraseBank, three classes, ordinal.
+#
+# Purpose: demonstrate that the agent is not hard-coded to IMDb or to binary
+# sentiment. Panel-annotated by 16 finance professionals; 5-8 annotations per
+# sentence; labels are the majority verdict.
+#
+# Data: CC BY-NC-SA 3.0 -> fetched at run time into inputs/ (gitignored) and
+# never redistributed. See scripts/fetch_dataset.py.
+#
+# Sampling note: the planned analysis set is a seeded, UNSTRATIFIED draw of 300
+# rows from the 75%-agreement subset (3,453 rows). The draw is applied by the
+# blind stage (phase 2); this phase audits the full subset so the sampling frame
+# is documented before any row is selected. Stratifying would fix the class
+# distribution and inflate kappa, which depends on the marginals.
+# ---------------------------------------------------------------------------
+
+run:
+  run_id: phrasebank_75agree
+  seed: 20261116
+  output_root: ../runs
+
+dataset:
+  path: ../inputs/financial_phrasebank/75agree/dataset.csv
+  format: csv
+  id_column: id
+  text_column: text
+  # No reused predictions: this case study exercises the live classification path.
+
+benchmark:
+  path: ../inputs/financial_phrasebank/75agree/benchmark.csv
+  format: csv
+  id_column: id
+  label_column: label            # negative | neutral | positive, already canonical
+  extra_label_columns: []
+  label_map:
+    negative: negative
+    neutral: neutral
+    positive: positive
+  on_unknown_label: error
+  on_id_mismatch: error
+  allow_duplicate_ids: false
+
+labels:
+  mode: single_label
+  ordered: true                  # negative < neutral < positive
+  classes:
+    - name: negative
+      definition: >-
+        The sentence suggests the news is unfavourable for the company's
+        investors: a fall in value, a loss, or a negative outlook.
+    - name: neutral
+      definition: >-
+        The sentence carries no clear favourable or unfavourable implication for
+        investors, or its sentiment is not relevant from a financial perspective.
+    - name: positive
+      definition: >-
+        The sentence suggests the news is favourable for the company's
+        investors: a rise in value, a profit, or a positive outlook.
+
+sample:
+  n: 300              # seeded, unstratified draw from the 75%-agreement subset
+  unique_text: true
+  method: random      # seed comes from run.seed; no stratification by design
+
+pilot:
+  n: 5               # explicit approval checkpoint before the full 300-row run
+
+task:
+  role: "a financial-news sentiment classifier"
+  decision_rule: >-
+    Judge the sentence from the viewpoint of an investor: would this news
+    positively, negatively, or neutrally affect the company's stock? Consider
+    only the information stated in the sentence.
+  forbid_outside_knowledge: true
+  output_contract: "ANSWER: {class}"
+
+model:
+  provider: opencode_cli
+  name: openrouter/deepseek/deepseek-v4.1-flash-1017
+  temperature: null
+  temperature_note: >-
+    No temperature flag exists on the CLI; a value would have to be injected
+    through provider/model request-body config and its support verified.
+  max_output_tokens: null
+  timeout_s: 180
+  max_attempts: 3
+  concurrency: 1
+
+budget:
+  # Total for this run_id: 5 pilot calls + 300 full-run calls + 15 retry
+  # buffer. The cap counts both logs, so it is a real ceiling, not a free pilot.
+  max_calls: 320
+  max_usd: 0.50
+  price_per_million:
+    input: 0.036   # catalog price at pilot time (verified 2026-11-16)
+    output: 0.50
+
+evaluation:
+  ci_level: 0.95
+  bootstrap_draws: 2000
+  kappa: [unweighted, quadratic]   # quadratic respects the ordinal scale
+  abstention_policy: [exclude, count_as_error]
+  subgroup_columns: []
+
+report:
+  title: "AI versus human financial-news sentiment classification"
+  author: "Business Analytics project"
+  task_description: "Three-class sentiment classification of single financial-news sentences."
+  reference_description: "Majority vote of 5-8 finance professionals, restricted to sentences with >=75% annotator agreement."
+  limitations:
+    - "The sample is drawn from the >=75% annotator-agreement subset; sentences with weaker agreement are excluded by construction, so agreement with the majority label is plausibly overstated relative to the full corpus."
+    - "Only 300 of the 3,453 available 75%-agreement sentences were sampled (unstratified, seed 20261116); all intervals are conditional on this sample."
+    - "Annotators came from one institution (Aalto University School of Business); agreement should be read with that in mind."
+    - "The published agreement rate is item-level, not a pairwise kappa, so it is not directly comparable to Cohen's kappa."
+    - "The benchmark is a majority verdict, not an adjudicated gold standard."
+    - "Domain is English financial news from OMX Helsinki listed companies, collected before 2014."
+    - "Licence is CC BY-NC-SA 3.0: non-commercial use only; data is not redistributed with this agent."

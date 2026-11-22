@@ -1,0 +1,5 @@
+review_id,review_text,sentiment
+r1,"This film was a delight from start to finish, with sharp dialogue and a warm ending.",positive
+r2,"A tedious slog; the plot never decides what it wants to be and the acting is flat.",negative
+r3,"Honestly I cannot tell whether I liked it, but the final scene won me over.",positive
+r4,"Beautiful cinematography, terrible script, and I would still watch it again.",negative

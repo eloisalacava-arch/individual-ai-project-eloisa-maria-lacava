@@ -1,0 +1,33 @@
+{
+  "blind_sha256": "cd41ca2e8488605be96194de25c17ef14818e28b16c0188d04414da1ca3f3be5",
+  "class_names": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "created_at": "2026-11-16T18:48:32.169424+00:00",
+  "n_selected": 300,
+  "reference_columns": [
+    "label"
+  ],
+  "reference_distributions": {
+    "label": {
+      "negative": 38,
+      "neutral": 182,
+      "positive": 80
+    }
+  },
+  "run_id": "phrasebank_75agree",
+  "sample": {
+    "method": "random",
+    "requested_n": 300,
+    "selected_n": 300,
+    "stratified": false,
+    "unique_text": true
+  },
+  "sealed_sha256": "c64a22e37d33eb79502a5787b3b7614efa5f692d7ed3d0bed8d335ad17fcba83",
+  "seed": 20261116,
+  "source_benchmark": "<project-root>/general-agent/inputs/financial_phrasebank/75agree/benchmark.csv",
+  "source_dataset": "<project-root>/general-agent/inputs/financial_phrasebank/75agree/dataset.csv",
+  "subgroup_columns": []
+}

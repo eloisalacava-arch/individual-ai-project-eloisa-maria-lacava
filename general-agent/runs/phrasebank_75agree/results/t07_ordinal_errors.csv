@@ -1,0 +1,4 @@
+ordinal_distance,bucket,n,share,ci_low,ci_high,ci_method
+0,agree,274,0.913333,0.876044,0.940171,wilson
+1,adjacent,23,0.076667,0.051628,0.112410,wilson
+2,opposite,3,0.010000,0.003407,0.028983,wilson

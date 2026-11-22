@@ -1,0 +1,80 @@
+{
+  "benchmark": {
+    "path": "<project-root>/general-agent/runs/phrasebank_75agree/sealed/benchmark.csv",
+    "read_at": "2026-11-16T19:23:00.591225+00:00",
+    "sha256": "c64a22e37d33eb79502a5787b3b7614efa5f692d7ed3d0bed8d335ad17fcba83",
+    "source": "sealed file restricted to the sampled IDs"
+  },
+  "bootstrap_draws": 2000,
+  "checks": {
+    "failed": [],
+    "passed": 13,
+    "status": "PASS",
+    "total": 13
+  },
+  "ci_level": 0.95,
+  "classes": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "config_path": "<project-root>/general-agent/configs/case2_phrasebank.yaml",
+  "config_sha256": "7bf1eaffbfb5b743d6d8a2477f991624c8c49104d8048988b05cd8b88e6e3eb9",
+  "finished_at": "2026-11-16T19:23:00.786048+00:00",
+  "freeze": {
+    "frozen_at": "2026-11-16T19:23:00.590707+00:00",
+    "frozen_path": "<project-root>/general-agent/runs/phrasebank_75agree/results/frozen_predictions.csv",
+    "frozen_sha256": "d5930064ea792c92b5f1ce16792c66c95a9352c64dca2d97fac19bd4b8f6a735",
+    "labels_outside_declared_classes": [],
+    "models": [
+      "openrouter/deepseek/deepseek-v4.1-flash-1017"
+    ],
+    "n_not_ok": 0,
+    "n_rows": 300,
+    "n_scorable": 300,
+    "note": "evaluation reads frozen_predictions.csv; the working predictions.csv is untouched",
+    "ok_rows_without_label": 0,
+    "predicted_label_counts": {
+      "negative": 44,
+      "neutral": 183,
+      "positive": 73
+    },
+    "source_path": "<project-root>/general-agent/runs/phrasebank_75agree/predictions.csv",
+    "source_sha256": "d5930064ea792c92b5f1ce16792c66c95a9352c64dca2d97fac19bd4b8f6a735",
+    "status_counts": {
+      "ok": 300
+    }
+  },
+  "ordinal": true,
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.6",
+  "row_counts": {
+    "analysed_rows": 300,
+    "benchmark_rows": 300,
+    "dropped_predictions": 0,
+    "excluded_not_ok": 0,
+    "extra_references": [],
+    "matched_rows": 300,
+    "only_in_benchmark": 0,
+    "only_in_predictions": 0,
+    "predictions_rows": 300
+  },
+  "seed": 20261116,
+  "tables": [
+    "t01_join_and_sample.csv",
+    "t02_accuracy.csv",
+    "t03_kappa.csv",
+    "t04_confusion_matrix.csv",
+    "t05_per_class_metrics.csv",
+    "t06_class_distribution.csv",
+    "t07_ordinal_errors.csv",
+    "t08_disagreements.csv",
+    "t09_category_summary.csv",
+    "t10_error_status.csv"
+  ],
+  "tool": {
+    "name": "general-agent",
+    "version": "0.4.0"
+  },
+  "weighted_kappa_reported": true
+}

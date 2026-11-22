@@ -1,0 +1,3 @@
+group,n,median_chars,mean_chars,median_words,mean_words,median_sentence_words,median_flesch
+agree,194,927.500000,1134.737113,161.500000,202.891753,18.071429,67.744018
+disagree,6,1166.500000,1413.500000,204.000000,249.333333,17.833333,66.073717

@@ -1,0 +1,3 @@
+step,rows_before,rows_after,rows_dropped,reason
+disagreements selected,26,25,1,"seeded random draw, n=25, seed=20261116"
+agreement control selected,274,10,264,"seeded random draw, control_n=10, seed=20261117"

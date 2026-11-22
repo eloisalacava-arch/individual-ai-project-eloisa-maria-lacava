@@ -1,0 +1,12 @@
+group,reason,n,share_of_explained,share_of_selected,top_directions
+disagreement,mixed_or_conflicting_signals,6,1.000000,1.000000, (6)
+disagreement,reference_label_ambiguity,5,0.833333,0.833333, (5)
+disagreement,subtle_or_low_intensity_sentiment,3,0.500000,0.500000, (3)
+disagreement,category_definition_overlap,2,0.333333,0.333333, (2)
+disagreement,figurative_or_sarcastic_language,1,0.166667,0.166667, (1)
+agreement,mixed_or_conflicting_signals,7,0.700000,0.700000, (7)
+agreement,domain_or_world_knowledge,5,0.500000,0.500000, (5)
+agreement,subtle_or_low_intensity_sentiment,4,0.400000,0.400000, (4)
+agreement,figurative_or_sarcastic_language,1,0.100000,0.100000, (1)
+agreement,other,1,0.100000,0.100000, (1)
+agreement,text_noise_or_truncation,1,0.100000,0.100000, (1)

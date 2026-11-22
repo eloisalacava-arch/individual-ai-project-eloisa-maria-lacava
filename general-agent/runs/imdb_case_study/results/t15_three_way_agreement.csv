@@ -1,0 +1,6 @@
+comparison,category,n,share,ci_low,ci_high,ci_method,ci_level
+human_sentiment_vs_imdb_label,all_three_agree,184,0.920000,0.874011,0.950159,wilson,0.950000
+human_sentiment_vs_imdb_label,consensus_ai_disagrees,1,0.005000,0.000883,0.027774,wilson,0.950000
+human_sentiment_vs_imdb_label,dispute_ai_sides_primary,10,0.050000,0.027383,0.089578,wilson,0.950000
+human_sentiment_vs_imdb_label,dispute_ai_sides_extra,5,0.025000,0.010725,0.057178,wilson,0.950000
+human_sentiment_vs_imdb_label,dispute_ai_sides_neither,0,0.000000,0.000000,0.018845,wilson,0.950000

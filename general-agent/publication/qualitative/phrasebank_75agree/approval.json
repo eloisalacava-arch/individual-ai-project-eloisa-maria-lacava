@@ -1,0 +1,19 @@
+{
+  "approved_at": "2026-11-17T11:41:50.102647+00:00",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+  "n_ok": 3,
+  "n_pilot": 3,
+  "note": "",
+  "pilot_explanations_sha256": "bcb649a7dfe426cd16121e924704d7d36ff130235466e92e0b759bf8b16900c6",
+  "prompt_template_hashes": {
+    "agreement": "bdaa025512a50238dfd22068192e791e53c68a47f3b48114cd2d01f2ccd8bad4",
+    "disagreement": "780f3b3fc3c77e20ed24901eb4aea703aaedb6403f246283c3ca1d95c2ac6df4"
+  },
+  "prompt_version": 1,
+  "provider": "opencode_cli",
+  "settings_sha256": "7b8dc9248a1864de34233e1b7011dd8ac4869b1d1fb2d9b33225223f6ae7c90c",
+  "study_config_sha256": "7bf1eaffbfb5b743d6d8a2477f991624c8c49104d8048988b05cd8b88e6e3eb9",
+  "temperature_requested": null,
+  "temperature_status": "not_requested",
+  "vocabulary_version": 1
+}

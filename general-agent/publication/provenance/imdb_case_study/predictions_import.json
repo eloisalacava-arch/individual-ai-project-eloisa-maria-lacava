@@ -1,0 +1,15 @@
+{
+  "canonical_path": "<project-root>/general-agent/runs/imdb_case_study/predictions.csv",
+  "canonical_sha256": "aca7cde4a36dea8ad1805e28bff8189ccbcdbd000ce9984b065daa45280420f0",
+  "imported_at": "2026-11-16T19:21:55.070408+00:00",
+  "models": [
+    "openrouter/deepseek/deepseek-v4.1-flash-1017"
+  ],
+  "n_rows": 200,
+  "note": "reused predictions; zero model calls in this stage",
+  "source_path": "<project-root>/data/derived/workflow_13_predictions_openrouter.csv",
+  "source_sha256": "2d6ff53bbf5d0cfe7cdaa3c927e502c89846f796dbd967af80396327c1504250",
+  "status_counts": {
+    "ok": 200
+  }
+}

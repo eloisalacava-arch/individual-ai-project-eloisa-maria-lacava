@@ -1,0 +1,4 @@
+class,human_n,human_share,ai_n,ai_share,difference_ai_minus_human
+negative,38,0.126667,44,0.146667,0.020000
+neutral,182,0.606667,183,0.610000,0.003333
+positive,80,0.266667,73,0.243333,-0.023333

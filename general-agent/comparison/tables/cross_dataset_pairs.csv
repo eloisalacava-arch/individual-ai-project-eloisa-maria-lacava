@@ -1,0 +1,8 @@
+dataset,reference,predicted,n,ordinal_distance,share_of_disagreements,share_of_all
+imdb_case_study,negative,positive,4,1,0.666667,0.020000
+imdb_case_study,positive,negative,2,1,0.333333,0.010000
+phrasebank_75agree,positive,negative,3,2,0.115385,0.010000
+phrasebank_75agree,positive,neutral,11,1,0.423077,0.036667
+phrasebank_75agree,neutral,positive,7,1,0.269231,0.023333
+phrasebank_75agree,neutral,negative,4,1,0.153846,0.013333
+phrasebank_75agree,negative,neutral,1,1,0.038462,0.003333

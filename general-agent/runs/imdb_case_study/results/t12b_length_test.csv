@@ -1,0 +1,2 @@
+feature,n_agree,n_disagree,mean_agree,mean_disagree,difference_disagree_minus_agree,permutation_draws,p_two_sided,seed,status
+observation_words,194,6,202.891753,249.333333,46.441581,10000,0.359364,20261116,exploratory; one pre-specified feature; no multiplicity adjustment

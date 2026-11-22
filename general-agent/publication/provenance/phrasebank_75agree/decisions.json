@@ -1,0 +1,116 @@
+{
+  "created_at": "2026-11-16T18:48:31.921577+00:00",
+  "decisions": [
+    "dataset ID: 'id' (set explicitly in dataset.id_column)",
+    "dataset text: 'text' (set explicitly in dataset.text_column)",
+    "benchmark ID: 'id' (set explicitly in benchmark.id_column)",
+    "benchmark label: 'label' (set explicitly in benchmark.label_column)",
+    "benchmark label: 'label' maps onto all declared classes ['negative', 'neutral', 'positive'] (label_map applied)"
+  ],
+  "declared_classes": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "label_map": {
+    "negative": "negative",
+    "neutral": "neutral",
+    "positive": "positive"
+  },
+  "profiles": {
+    "benchmark": [
+      {
+        "dtype": "str",
+        "examples": [
+          "fpb75_00000",
+          "fpb75_00001",
+          "fpb75_00002"
+        ],
+        "max_chars": 11,
+        "mean_chars": 11.0,
+        "median_chars": 11.0,
+        "n_blank_or_null": 0,
+        "n_present": 3453,
+        "n_rows": 3453,
+        "n_unique": 3453,
+        "name": "id",
+        "unique_ratio": 1.0
+      },
+      {
+        "dtype": "str",
+        "examples": [
+          "neutral",
+          "positive",
+          "negative"
+        ],
+        "max_chars": 8,
+        "mean_chars": 7.4,
+        "median_chars": 7.0,
+        "n_blank_or_null": 0,
+        "n_present": 3453,
+        "n_rows": 3453,
+        "n_unique": 3,
+        "name": "label",
+        "unique_ratio": 0.0009
+      }
+    ],
+    "dataset": [
+      {
+        "dtype": "str",
+        "examples": [
+          "fpb75_00000",
+          "fpb75_00001",
+          "fpb75_00002"
+        ],
+        "max_chars": 11,
+        "mean_chars": 11.0,
+        "median_chars": 11.0,
+        "n_blank_or_null": 0,
+        "n_present": 3453,
+        "n_rows": 3453,
+        "n_unique": 3453,
+        "name": "id",
+        "unique_ratio": 1.0
+      },
+      {
+        "dtype": "str",
+        "examples": [
+          "<redacted: source text>"
+        ],
+        "max_chars": 315,
+        "mean_chars": 124.9,
+        "median_chars": 116.0,
+        "n_blank_or_null": 0,
+        "n_present": 3453,
+        "n_rows": 3453,
+        "n_unique": 3448,
+        "name": "text",
+        "unique_ratio": 0.9986
+      }
+    ]
+  },
+  "questions": [],
+  "references": [
+    "label"
+  ],
+  "resolved_mapping": {
+    "extra_label_columns": [],
+    "id_column": "id",
+    "id_column_benchmark": "id",
+    "label_column": "label",
+    "text_column": "text"
+  },
+  "run_id": "phrasebank_75agree",
+  "stats": {
+    "id_alignment": {
+      "n_benchmark_ids": 3453,
+      "n_dataset_ids": 3453,
+      "n_matched": 3453,
+      "n_only_benchmark": 0,
+      "n_only_dataset": 0,
+      "only_benchmark_examples": [],
+      "only_dataset_examples": []
+    }
+  },
+  "status": "resolved"
+}

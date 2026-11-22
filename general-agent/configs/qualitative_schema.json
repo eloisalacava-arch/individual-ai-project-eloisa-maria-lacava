@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/general-agent/qualitative.schema.json",
+  "title": "Qualitative analysis settings",
+  "description": "Sidecar settings for stage 08. The study configuration is referenced by path and hash and never edited.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["study_config"],
+  "properties": {
+    "study_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": ["string", "null"] }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "name"],
+      "properties": {
+        "provider": { "type": "string", "enum": ["opencode_cli", "openai_compatible"] },
+        "name": { "type": "string", "minLength": 1 },
+        "temperature": { "type": ["number", "null"], "minimum": 0, "maximum": 2 },
+        "temperature_note": { "type": "string" },
+        "max_output_tokens": { "type": ["integer", "null"], "minimum": 1 },
+        "timeout_s": { "type": "integer", "minimum": 5 },
+        "max_attempts": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "concurrency": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "cli_path": { "type": ["string", "null"] },
+        "base_url": { "type": ["string", "null"] },
+        "api_key_env": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "provider": { "const": "openai_compatible" } } },
+          "then": { "required": ["base_url", "api_key_env"] }
+        }
+      ]
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "n": { "type": "integer", "minimum": 1 },
+        "control_n": { "type": "integer", "minimum": 0 },
+        "method": { "type": "string", "enum": ["random", "head"] },
+        "seed": { "type": "integer" }
+      }
+    },
+    "pilot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disagreements": { "type": "integer", "minimum": 0 },
+        "agreements": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_calls"],
+      "properties": {
+        "max_calls": { "type": "integer", "minimum": 1 },
+        "max_usd": { "type": ["number", "null"], "minimum": 0 },
+        "price_per_million": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["input", "output"],
+          "properties": {
+            "input": { "type": "number", "minimum": 0 },
+            "output": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "prompt_version": { "type": "integer", "minimum": 1 },
+    "vocabulary_version": { "type": "integer", "minimum": 1 },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

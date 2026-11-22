@@ -1,0 +1,4 @@
+status,n,definition,confirmable_with_this_data,evidence_required
+confirmed_model_error,0,disagreement established as a model mistake by adjudication,False,per-annotator labels or independent adjudication
+unconfirmed_disagreement,6,prediction differs from the primary reference label,False,the same evidence as above; not estimable here
+agreement,194,prediction equals the primary reference label,True,none

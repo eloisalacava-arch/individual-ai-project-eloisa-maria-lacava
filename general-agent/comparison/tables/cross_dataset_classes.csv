@@ -1,0 +1,6 @@
+dataset,class,n_reference,n_predicted,tp,fp,fn,precision,precision_ci_low,precision_ci_high,precision_ci_method,recall,recall_ci_low,recall_ci_high,recall_ci_method,f1,f1_ci_low,f1_ci_high,f1_ci_method,bootstrap_valid_draws,ci_level
+imdb_case_study,positive,103,105,101,4,2,0.961905,0.922330,0.991228,bootstrap_percentile,0.980583,0.931948,0.994659,wilson,0.971154,0.946341,0.991150,bootstrap_percentile,2000,0.950000
+imdb_case_study,negative,97,95,93,2,4,0.978947,0.945652,1.000000,bootstrap_percentile,0.958763,0.898725,0.983849,wilson,0.968750,0.940593,0.990101,bootstrap_percentile,2000,0.950000
+phrasebank_75agree,negative,38,44,37,7,1,0.840909,0.725000,0.942321,bootstrap_percentile,0.973684,0.865051,0.995339,wilson,0.902439,0.825397,0.961551,bootstrap_percentile,2000,0.950000
+phrasebank_75agree,neutral,182,183,171,12,11,0.934426,0.896725,0.967396,bootstrap_percentile,0.939560,0.895029,0.965920,wilson,0.936986,0.910177,0.960836,bootstrap_percentile,2000,0.950000
+phrasebank_75agree,positive,80,73,66,7,14,0.904110,0.830980,0.968750,bootstrap_percentile,0.825000,0.727425,0.892794,wilson,0.862745,0.802548,0.916201,bootstrap_percentile,2000,0.950000

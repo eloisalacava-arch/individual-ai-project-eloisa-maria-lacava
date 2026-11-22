@@ -1,0 +1,60 @@
+script: general-agent audit (version 0.2.0)
+started: 2026-11-16T18:48:31.907437+00:00
+config: <project-root>/general-agent/configs/case2_phrasebank.yaml
+config sha256: 540c68c1d2b66ebefa540bc4caca8fff376b8a09b96287eeb24e37a8447ed031
+run_id: phrasebank_75agree   seed: 20261116
+provider: opencode_cli   model: openrouter/deepseek/deepseek-v4.1-flash-1017
+temperature: None (requested only; support is not guaranteed - see SPEC.md section 2)
+declared classes (3): ['negative', 'neutral', 'positive']
+benchmark references configured: primary='label', extras=[]
+
+== Inputs ==
+dataset rows: 3453  columns: ['id', 'text']
+benchmark rows: 3453  columns: ['id', 'label']
+dataset sha256: 43de252f278177b490003bab72eb193a31995f29781f5c4a86ba3951f385abab
+benchmark sha256: 8818cdf6eb1d10db6b2416adedd3835bd879019fd0724e97a8f2067340522faf
+dataset: 2 columns
+  - id                       str        unique=3453  median_chars=11.0     blank=0
+  - text                     str        unique=3448  median_chars=116.0    blank=0
+benchmark: 2 columns
+  - id                       str        unique=3453  median_chars=11.0     blank=0
+  - label                    str        unique=3     median_chars=7.0      blank=0
+
+== Column discovery ==
+[decision] dataset ID: 'id' (set explicitly in dataset.id_column)
+[decision] dataset text: 'text' (set explicitly in dataset.text_column)
+[decision] benchmark ID: 'id' (set explicitly in benchmark.id_column)
+[decision] benchmark label: 'label' (set explicitly in benchmark.label_column)
+[decision] benchmark label: 'label' maps onto all declared classes ['negative', 'neutral', 'positive'] (label_map applied)
+decisions written: decisions.json
+resolved: id='id', benchmark id='id', text=text, label='label'
+
+== Integrity checks ==
+[PASS] dataset_nonzero_rows: 3453 rows
+[PASS] benchmark_nonzero_rows: 3453 rows
+[PASS] dataset_ids_complete: 0 blank/null ID(s) of 3453
+[PASS] benchmark_ids_complete: 0 blank/null ID(s) of 3453
+[PASS] dataset_ids_unique: 0 duplicate ID(s) of 3453
+[PASS] benchmark_ids_unique: 0 duplicate ID(s) of 3453
+
+== Row alignment ==
+ID sets: dataset 3453, benchmark 3453, matched 3453, dataset-only 0, benchmark-only 0
+[PASS] id_sets_match_after_policy: 3453 dataset rows, 3453 benchmark rows, 3453 shared IDs
+
+== Observation text ==
+observation text: n=3453, blank=0, chars median=116.0 min=9 max=315
+[PASS] dataset_text_nonblank: 0 blank observation text(s)
+duplicate observation texts: 5 (information only; the report must state whether duplicates count as independent observations)
+
+== Label domains ==
+[PASS] label_domain[label]: 0 row(s) missing or outside ['negative', 'neutral', 'positive'] after label_map; policy=error
+[PASS] all_declared_classes_present_in_primary: absent from the primary reference: []; present: ['negative', 'neutral', 'positive']
+primary reference distribution (label): {'neutral': 2146, 'positive': 887, 'negative': 420}
+
+== Leakage checks ==
+[PASS] dataset_excludes_reference_label_columns: none of ['label'] appear in the dataset columns
+
+== Result ==
+checks passed: 11/11
+warnings: 0
+result: PASS

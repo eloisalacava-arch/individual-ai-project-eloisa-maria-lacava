@@ -1,0 +1,8 @@
+step,n,reason
+predictions (frozen copy),200,frozen before benchmark access
+benchmark (sealed reference),200,opened after freeze
+benchmark rows without a prediction,0,reference row has no prediction; excluded from the join
+matched on id,200,"inner join, one-to-one"
+dropped predictions,0,no matching reference row
+excluded failed predictions,0,status != 'ok'; never imputed
+analysed,200,rows entering the metrics

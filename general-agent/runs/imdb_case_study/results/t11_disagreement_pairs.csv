@@ -1,0 +1,5 @@
+reference,predicted,n,ordinal_distance,share_of_disagreements,share_of_all
+negative,positive,4,1,0.666667,0.020000
+positive,negative,2,1,0.333333,0.010000
+positive,positive,101,0,0.000000,0.505000
+negative,negative,93,0,0.000000,0.465000

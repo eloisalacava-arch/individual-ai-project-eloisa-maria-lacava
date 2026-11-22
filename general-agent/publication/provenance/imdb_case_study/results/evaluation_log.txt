@@ -1,0 +1,58 @@
+script: general-agent evaluate (version 0.7.0)
+started: 2026-11-19T11:02:57.634106+00:00
+config: <project-root>/general-agent/configs/imdb_case_study.yaml
+run_id: imdb_case_study | seed: 20261116 | CI level: 0.95 | bootstrap draws: 2000
+declared classes (order used for ordinal distance): ['positive', 'negative']
+
+== Step 1: freeze predictions (benchmark not yet opened) ==
+frozen: 200 rows, sha256 aca7cde4a36dea8a...
+status counts: {'ok': 200}
+models: ['openrouter/deepseek/deepseek-v4.1-flash-1017']
+[PASS] frozen_file_matches_source: the scored copy is byte-identical to predictions.csv at freeze time
+
+== Step 2: open sealed reference and join ==
+sealed reference read at 2026-11-19T11:02:57.638907+00:00: 200 rows, sha256 4001026104210e05...
+[PASS] benchmark_opened_after_freeze: freeze 2026-11-19T11:02:57.638267+00:00 <= read 2026-11-19T11:02:57.638907+00:00
+[PASS] frozen_nonzero_rows: 200 rows
+[PASS] benchmark_nonzero_rows: 200 rows
+[PASS] frozen_ids_unique: 0 duplicate ID(s) of 200
+[PASS] benchmark_ids_unique: 0 duplicate ID(s) of 200
+[PASS] every_prediction_has_a_reference: 0 prediction ID(s) without a benchmark row
+[PASS] every_reference_has_a_prediction: 0 benchmark ID(s) without a prediction
+rows: 200 -> 200 (reason: inner join on id; 0 prediction row(s) dropped because no reference matched)
+[PASS] join_kept_every_row: 200 joined of 200 frozen
+rows: 200 -> 200 (reason: reference rows restricted to matched IDs; 0 excluded)
+[PASS] primary_reference_mappable: mapped onto ['positive', 'negative']
+[PASS] extra_reference_mappable[imdb_label]: mapped onto the declared classes
+rows: 200 -> 200 (reason: status == 'ok'; 0 row(s) excluded as failed predictions)
+[PASS] no_failed_predictions: 0 non-ok prediction(s)
+[PASS] reference_domain: reference values: ['negative', 'positive']
+[PASS] extra_reference_domain[imdb_label]: 2 value(s), all declared
+
+== Step 3: metrics ==
+
+== Step 4: disagreements (not confirmed errors) ==
+[PASS] disagreement_count_reconciles: 6 disagreement(s) = 200 - 194
+
+== Results ==
+n analysed: 200 | correct: 194 | disagreements: 6
+accuracy: 0.970000 (95% Wilson 0.936106-0.986180)
+balanced accuracy: 0.969673 (bootstrap 0.943910-0.990385)
+kappa unweighted: 0.939910 (bootstrap 0.889378-0.979998)
+ordinal buckets: {'agree': 194, 'adjacent': 0, 'opposite': 6}
+  positive n=103 precision=0.962 recall=0.981 f1=0.971
+  negative n=97  precision=0.979 recall=0.959 f1=0.969
+
+== Method notes ==
+- Confusion matrix orientation: rows = human reference, columns = AI.
+- Accuracy and recall CIs: Wilson score. Kappa, balanced accuracy, precision and F1: seeded percentile bootstrap.
+- Reference: Primary: manual annotation of 200 reviews. Secondary: star-derived IMDb label (0/1).
+- The reference is a benchmark label, not an adjudicated gold standard. Where per-annotator labels are not released, human-human kappa is not computable; see t13_reference_agreement.csv for any secondary reference.
+- Disagreements are not confirmed errors; see t10_error_status.csv.
+- 0 failed predictions in this run, so both abstention policies coincide; the exclusion count is recorded in t01_join_and_sample.csv.
+- Ordinal distance is a severity proxy (adjacent vs opposite), not evidence about which label is right.
+- No causal claims: these are associations between predicted and reference labels on the analysed sample.
+- Transparency: aggregate benchmark class counts were seen before classification (to report the sampling frame). No per-row reference value entered the prompt or the classifier, and this evaluation still freezes predictions before opening the benchmark.
+
+checks passed: 15/15
+evaluation status: PASS

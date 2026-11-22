@@ -1,0 +1,34 @@
+# Runtime outputs: per-run manifests, sealed benchmark, predictions, results
+/runs/
+
+# Composed per-study and comparison reports (Markdown and PDF)
+/reports/
+
+# Dataset payloads fetched at run time (never committed: see SPEC.md licence notes)
+/inputs/
+
+# Local environments and caches
+.venv/
+__pycache__/
+*.py[oc]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+.streamlit/
+
+# Credentials must never be committed
+.env
+.env.*
+*.key
+secrets/
+
+# macOS metadata, archives and temporary files
+.DS_Store
+*.zip
+*.tmp
+
+# Original provenance files with local absolute paths; sanitized copies are
+# under publication/provenance/
+/config_history.json
+/comparison/run_metadata.json

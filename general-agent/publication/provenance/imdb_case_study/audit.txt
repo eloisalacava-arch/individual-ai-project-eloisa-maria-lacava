@@ -1,0 +1,83 @@
+script: general-agent audit (version 0.2.0)
+started: 2026-11-16T18:48:31.233952+00:00
+config: <project-root>/general-agent/configs/imdb_case_study.yaml
+config sha256: 4f2000d38bea501a895048699883b8e22e0fcf76300fd8fedacd001798adcdcd
+run_id: imdb_case_study   seed: 20261116
+provider: opencode_cli   model: openrouter/deepseek/deepseek-v4.1-flash-1017
+temperature: None (requested only; support is not guaranteed - see SPEC.md section 2)
+declared classes (2): ['positive', 'negative']
+benchmark references configured: primary='human_sentiment', extras=['imdb_label']
+
+== Inputs ==
+dataset rows: 200  columns: ['review_id', 'text']
+benchmark rows: 200  columns: ['review_id', 'human_sentiment', 'human_sarcasm', 'human_mixed', 'human_ambiguous', 'human_complex', 'human_straightforward', 'uncertainty_sentiment', 'imdb_label']
+dataset sha256: 8cbd1687b6caf5377e2c61019a4491b10565cfcc87250cdcb92740d739beb0a6
+benchmark sha256: 1c0922b2e58adc2a33a83241bee31dff4b1b37d30a52b57cf9d45ecc3520d9e7
+dataset: 2 columns
+  - review_id                str        unique=200   median_chars=12.0     blank=0
+  - text                     str        unique=200   median_chars=940.0    blank=0
+benchmark: 9 columns
+  - review_id                str        unique=200   median_chars=12.0     blank=0
+  - human_sentiment          str        unique=2     median_chars=8.0      blank=0
+  - human_sarcasm            int64      unique=2     median_chars=1.0      blank=0
+  - human_mixed              int64      unique=2     median_chars=1.0      blank=0
+  - human_ambiguous          int64      unique=2     median_chars=1.0      blank=0
+  - human_complex            int64      unique=2     median_chars=1.0      blank=0
+  - human_straightforward    int64      unique=2     median_chars=1.0      blank=0
+  - uncertainty_sentiment    int64      unique=3     median_chars=1.0      blank=0
+  - imdb_label               int64      unique=2     median_chars=1.0      blank=0
+
+== Column discovery ==
+[decision] dataset ID: 'review_id' (set explicitly in dataset.id_column)
+[decision] dataset text: 'text' (set explicitly in dataset.text_column)
+[decision] benchmark ID: 'review_id' (set explicitly in benchmark.id_column)
+[decision] benchmark label: 'human_sentiment' (set explicitly in benchmark.label_column)
+[decision] benchmark label: 'human_sentiment' maps onto all declared classes ['positive', 'negative'] (label_map applied)
+decisions written: decisions.json
+resolved: id='review_id', benchmark id='review_id', text=text, label='human_sentiment'
+
+== Integrity checks ==
+[PASS] dataset_nonzero_rows: 200 rows
+[PASS] benchmark_nonzero_rows: 200 rows
+[PASS] dataset_ids_complete: 0 blank/null ID(s) of 200
+[PASS] benchmark_ids_complete: 0 blank/null ID(s) of 200
+[PASS] dataset_ids_unique: 0 duplicate ID(s) of 200
+[PASS] benchmark_ids_unique: 0 duplicate ID(s) of 200
+
+== Row alignment ==
+ID sets: dataset 200, benchmark 200, matched 200, dataset-only 0, benchmark-only 0
+[PASS] id_sets_match_after_policy: 200 dataset rows, 200 benchmark rows, 200 shared IDs
+
+== Observation text ==
+observation text: n=200, blank=0, chars median=940.0 min=213 max=3772
+[PASS] dataset_text_nonblank: 0 blank observation text(s)
+duplicate observation texts: 0 (information only; the report must state whether duplicates count as independent observations)
+
+== Label domains ==
+[PASS] label_domain[human_sentiment]: 0 row(s) missing or outside ['positive', 'negative'] after label_map; policy=error
+[PASS] label_domain[imdb_label]: 0 row(s) missing or outside ['positive', 'negative'] after label_map; policy=error
+[PASS] all_declared_classes_present_in_primary: absent from the primary reference: []; present: ['negative', 'positive']
+primary reference distribution (human_sentiment): {'positive': 103, 'negative': 97}
+reference 'imdb_label': 200 of 200 rows analysable (0 excluded: missing or unclassifiable); distribution: {'positive': 102, 'negative': 98}
+
+== Leakage checks ==
+[PASS] dataset_excludes_reference_label_columns: none of ['human_sentiment', 'imdb_label'] appear in the dataset columns
+
+== Reusable predictions ==
+rows read from workflow_13_predictions_openrouter.csv: 200 (no filter, no drop at load)
+columns: ['review_id', 'ai_sentiment', 'status', 'attempts', 'model']
+[PASS] predictions_nonzero_rows: 200 rows
+[PASS] predictions_columns_present: id='review_id' label='ai_sentiment' in ['review_id', 'ai_sentiment', 'status', 'attempts', 'model']
+[PASS] predictions_ids_unique: 0 duplicate ID(s) of 200 rows
+[PASS] predictions_cover_dataset_ids: 0 dataset ID(s) without a prediction, 0 prediction ID(s) not in the dataset (examples: missing [], extra [])
+[PASS] predictions_labels_in_declared_classes: all values in ['positive', 'negative']
+[PASS] predictions_no_missing_labels: 0 missing of 200
+status values in 'status': ['ok']
+[PASS] predictions_all_ok: 0 row(s) have status != 'ok'
+[PASS] predictions_single_model: models seen: ['openrouter/deepseek/deepseek-v4.1-flash-1017']
+reuse mode: True (true means zero model calls for this stage)
+
+== Result ==
+checks passed: 20/20
+warnings: 0
+result: PASS

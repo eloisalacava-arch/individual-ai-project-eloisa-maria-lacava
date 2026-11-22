@@ -1,0 +1,7 @@
+comparison,subgroup,family,n_subgroup,n_reference,disputes_subgroup,disputes_reference,rate_subgroup,rate_reference,risk_difference,rd_ci_low,rd_ci_high,rd_ci_method,fisher_p,bh_q,verdict,ci_level
+human_sentiment_vs_imdb_label,human_sarcasm,pre_specified,25,106,3,2,0.120000,0.018868,0.101132,0.009611,0.281210,newcombe_hybrid_score,0.047693,0.063591,lower_accuracy_significant,0.950000
+human_sentiment_vs_imdb_label,human_mixed,pre_specified,50,106,8,2,0.160000,0.018868,0.141132,0.051067,0.267020,newcombe_hybrid_score,0.001863,0.007450,lower_accuracy_significant,0.950000
+human_sentiment_vs_imdb_label,human_ambiguous,pre_specified,40,106,6,2,0.150000,0.018868,0.131132,0.038705,0.272519,newcombe_hybrid_score,0.005558,0.011116,lower_accuracy_significant,0.950000
+human_sentiment_vs_imdb_label,human_complex,pre_specified,20,106,2,2,0.100000,0.018868,0.081132,-0.005144,0.282631,newcombe_hybrid_score,0.118196,0.118196,lower_accuracy_inconclusive,0.950000
+human_sentiment_vs_imdb_label,ambiguous_or_complex,composite,50,106,7,2,0.140000,0.018868,0.121132,0.036224,0.243759,newcombe_hybrid_score,0.005162,,lower_accuracy_significant,0.950000
+human_sentiment_vs_imdb_label,any_difficulty,composite,94,106,13,2,0.138298,0.018868,0.119430,0.046366,0.204598,newcombe_hybrid_score,0.002002,,lower_accuracy_significant,0.950000

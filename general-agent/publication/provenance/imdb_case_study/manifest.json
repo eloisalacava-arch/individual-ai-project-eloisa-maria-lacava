@@ -1,0 +1,404 @@
+{
+  "budget": {
+    "max_calls": 5,
+    "max_usd": 0.05,
+    "price_per_million": {
+      "input": 0.036,
+      "output": 0.5
+    }
+  },
+  "checks": {
+    "failed": [],
+    "passed": 20,
+    "status": "PASS",
+    "total": 20
+  },
+  "class_names": [
+    "positive",
+    "negative"
+  ],
+  "config": {
+    "path": "<project-root>/general-agent/configs/imdb_case_study.yaml",
+    "sha256": "4f2000d38bea501a895048699883b8e22e0fcf76300fd8fedacd001798adcdcd"
+  },
+  "created_at": "2026-11-16T18:48:31.243957+00:00",
+  "decisions_sha256": "45896d5ecc384b928056b2aab00b8ff3b14ac797c0b013d9c6f900e875bca198",
+  "defaults_applied": {
+    "benchmark": {
+      "delimiter": ",",
+      "encoding": "utf-8"
+    },
+    "dataset": {
+      "delimiter": ",",
+      "encoding": "utf-8"
+    },
+    "sample": {
+      "method": "random",
+      "unique_text": true
+    }
+  },
+  "documented_defaults": {
+    "benchmark": {
+      "allow_duplicate_ids": false,
+      "delimiter": ",",
+      "encoding": "utf-8",
+      "extra_label_columns": [],
+      "format": "auto",
+      "on_id_mismatch": "error",
+      "on_unknown_label": "error"
+    },
+    "budget": {
+      "max_usd": null
+    },
+    "dataset": {
+      "delimiter": ",",
+      "encoding": "utf-8",
+      "format": "auto"
+    },
+    "evaluation": {
+      "abstention_policy": [
+        "exclude",
+        "count_as_error"
+      ],
+      "bootstrap_draws": 2000,
+      "ci_level": 0.95,
+      "kappa": [
+        "unweighted"
+      ],
+      "subgroup_columns": []
+    },
+    "labels": {
+      "mode": "single_label",
+      "ordered": false
+    },
+    "model": {
+      "concurrency": 1,
+      "max_attempts": 3,
+      "timeout_s": 180
+    },
+    "pilot": {
+      "n": 5
+    },
+    "run": {
+      "output_root": "runs"
+    },
+    "sample": {
+      "method": "random",
+      "n": null,
+      "unique_text": true
+    },
+    "task": {
+      "forbid_outside_knowledge": true
+    }
+  },
+  "git_commit": null,
+  "inputs": {
+    "benchmark": {
+      "bytes": 7337,
+      "exists": true,
+      "path": "<project-root>/general-agent/inputs/imdb_benchmark.csv",
+      "sha256": "1c0922b2e58adc2a33a83241bee31dff4b1b37d30a52b57cf9d45ecc3520d9e7"
+    },
+    "dataset": {
+      "bytes": 232626,
+      "exists": true,
+      "path": "<project-root>/data/derived/workflow_classifier_input.csv",
+      "sha256": "8cbd1687b6caf5377e2c61019a4491b10565cfcc87250cdcb92740d739beb0a6"
+    },
+    "predictions": {
+      "bytes": 14646,
+      "exists": true,
+      "path": "<project-root>/data/derived/workflow_13_predictions_openrouter.csv",
+      "sha256": "2d6ff53bbf5d0cfe7cdaa3c927e502c89846f796dbd967af80396327c1504250"
+    }
+  },
+  "label_distributions": {
+    "human_sentiment": {
+      "negative": 97,
+      "positive": 103
+    },
+    "imdb_label": {
+      "negative": 98,
+      "positive": 102
+    }
+  },
+  "model": {
+    "api_key_env": null,
+    "api_key_env_present": null,
+    "concurrency": 1,
+    "max_attempts": 3,
+    "max_output_tokens": null,
+    "name": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+    "provider": "opencode_cli",
+    "temperature_note": "The CLI used for this project exposes no temperature flag; the original workflow recorded temperature as not settable. Recorded as unverified.",
+    "temperature_requested": null,
+    "temperature_status": "not_requested",
+    "timeout_s": 180
+  },
+  "phase": "01_audit",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "predictions": {
+    "models": [
+      "openrouter/deepseek/deepseek-v4.1-flash-1017"
+    ],
+    "n_missing_labels": 0,
+    "rows": 200,
+    "usable": true
+  },
+  "python": "3.14.6",
+  "references": [
+    "human_sentiment",
+    "imdb_label"
+  ],
+  "row_accounting": [],
+  "row_counts": {
+    "benchmark_analysed": 200,
+    "benchmark_input": 200,
+    "dataset_analysed": 200,
+    "dataset_input": 200,
+    "duplicate_text": 0,
+    "matched_ids": 200
+  },
+  "run_id": "imdb_case_study",
+  "seed": 20261116,
+  "stages": {
+    "00_configure": {
+      "all_inputs_present": true,
+      "config_sha256": "4f2000d38bea501a895048699883b8e22e0fcf76300fd8fedacd001798adcdcd",
+      "finished_at": "2026-11-16T18:48:31.024248+00:00"
+    },
+    "01_audit": {
+      "checks": {
+        "failed": [],
+        "passed": 20,
+        "status": "PASS",
+        "total": 20
+      },
+      "decisions_sha256": "45896d5ecc384b928056b2aab00b8ff3b14ac797c0b013d9c6f900e875bca198",
+      "finished_at": "2026-11-16T18:48:31.267735+00:00",
+      "row_accounting": [],
+      "row_counts": {
+        "benchmark_analysed": 200,
+        "benchmark_input": 200,
+        "dataset_analysed": 200,
+        "dataset_input": 200,
+        "duplicate_text": 0,
+        "matched_ids": 200
+      },
+      "warnings": []
+    },
+    "02_blind": {
+      "blind_dir_entries": [
+        "blind.csv"
+      ],
+      "blind_path": "<project-root>/general-agent/runs/imdb_case_study/blind/blind.csv",
+      "blind_sha256": "bce949bca052405b92f85355b9a07315f86deccc6ef40f3d536d47591a56f7a7",
+      "class_names": [
+        "positive",
+        "negative"
+      ],
+      "finished_at": "2026-11-16T18:48:31.485391+00:00",
+      "reference_columns": [
+        "human_sentiment",
+        "imdb_label"
+      ],
+      "rows_benchmark_in": 200,
+      "rows_benchmark_sealed": 200,
+      "rows_in": 200,
+      "rows_selected": 200,
+      "sample": {
+        "method": "random",
+        "requested_n": null,
+        "selected_n": 200,
+        "stratified": false,
+        "unique_text": true
+      },
+      "sealed_sha256": "4001026104210e05b553c66f2121e00f179a0f920011c6f3a59f4d632e428fe0",
+      "subgroup_columns": [
+        "human_sarcasm",
+        "human_mixed",
+        "human_ambiguous",
+        "human_complex",
+        "human_straightforward"
+      ]
+    },
+    "03_pilot": {
+      "attempt_log": "<project-root>/general-agent/runs/imdb_case_study/pilot/pilot_attempts.jsonl",
+      "blind_sha256": "bce949bca052405b92f85355b9a07315f86deccc6ef40f3d536d47591a56f7a7",
+      "calls_full": 0,
+      "calls_pilot": 0,
+      "calls_used_total": 5,
+      "estimated_usd": 9.7e-05,
+      "estimated_usd_note": "rough estimate from characters/4 and 12 output tokens; not billing data",
+      "finished_at": "2026-11-16T18:48:41.779656+00:00",
+      "max_calls": 5,
+      "mode": "pilot",
+      "n_rows": 5,
+      "predictions_path": "<project-root>/general-agent/runs/imdb_case_study/pilot/pilot_predictions.csv",
+      "predictions_sha256": "4302471035574a3d522964a0b7d1f16cc43a0981af9173d1505e77d1518870a8",
+      "prompt_template_sha": "325a4ba6e27d941db8b169785817c960debb414eb7c8b07a98d075b0ae6619b0",
+      "provider": {
+        "cli_path": "/Applications/OpenCode.app/Contents/Resources/opencode-cli",
+        "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+        "provider": "opencode_cli",
+        "supports_temperature": false,
+        "temperature_requested": null,
+        "temperature_status": "not_requested"
+      },
+      "sealed_locked_during_run": true,
+      "status_counts": {
+        "ok": 5
+      },
+      "stopped_reason": null
+    },
+    "05_evaluate": {
+      "accuracy": 0.97,
+      "benchmark_read_at": "2026-11-19T11:02:57.638907+00:00",
+      "bootstrap_draws": 2000,
+      "checks": {
+        "failed": [],
+        "passed": 15,
+        "status": "PASS",
+        "total": 15
+      },
+      "finished_at": "2026-11-19T11:02:57.795782+00:00",
+      "kappa_quadratic": null,
+      "kappa_unweighted": 0.9399098647971957,
+      "results_dir": "<project-root>/general-agent/runs/imdb_case_study/results",
+      "row_counts": {
+        "analysed_rows": 200,
+        "benchmark_rows": 200,
+        "dropped_predictions": 0,
+        "excluded_not_ok": 0,
+        "extra_references": [
+          "imdb_label"
+        ],
+        "matched_rows": 200,
+        "only_in_benchmark": 0,
+        "only_in_predictions": 0,
+        "predictions_rows": 200
+      },
+      "seed": 20261116,
+      "tables": [
+        "t01_join_and_sample.csv",
+        "t02_accuracy.csv",
+        "t03_kappa.csv",
+        "t04_confusion_matrix.csv",
+        "t05_per_class_metrics.csv",
+        "t06_class_distribution.csv",
+        "t07_ordinal_errors.csv",
+        "t08_disagreements.csv",
+        "t09_category_summary.csv",
+        "t10_error_status.csv"
+      ]
+    },
+    "05_freeze": {
+      "frozen_at": "2026-11-19T11:02:57.638267+00:00",
+      "frozen_sha256": "aca7cde4a36dea8ad1805e28bff8189ccbcdbd000ce9984b065daa45280420f0",
+      "n_rows": 200,
+      "source_sha256": "aca7cde4a36dea8ad1805e28bff8189ccbcdbd000ce9984b065daa45280420f0",
+      "status_counts": {
+        "ok": 200
+      }
+    },
+    "06_disagreements": {
+      "analysed_rows": 200,
+      "blind_sha256": "bce949bca052405b92f85355b9a07315f86deccc6ef40f3d536d47591a56f7a7",
+      "extra_references": [
+        "imdb_label"
+      ],
+      "finished_at": "2026-11-19T11:02:58.154130+00:00",
+      "length_test_p": 0.35936406359364065,
+      "n_disagreements": 6,
+      "subgroup_columns": [
+        "human_sarcasm",
+        "human_mixed",
+        "human_ambiguous",
+        "human_complex",
+        "human_straightforward"
+      ],
+      "subgroup_reference": "human_straightforward",
+      "tables": [
+        "t11_disagreement_pairs.csv",
+        "t12_text_profile.csv",
+        "t12b_length_test.csv",
+        "t13_reference_agreement.csv",
+        "disagreement_log.txt",
+        "t14_subgroup_tests.csv",
+        "t15_three_way_agreement.csv",
+        "t16_reference_dispute.csv"
+      ]
+    },
+    "08_qualitative": {
+      "actual_usd": 0.00431296,
+      "calls_full": 13,
+      "calls_pilot": 3,
+      "calls_used_total": 16,
+      "estimated_usd": 0.004151,
+      "estimated_usd_note": "rough estimate from characters/4 and 300 output tokens; not billing data",
+      "explanations_path": "<project-root>/general-agent/runs/imdb_case_study/qualitative/explanations.csv",
+      "explanations_sha256": "6019c5f30eb1d5e2972c2f9c3ae53eaab2235e70284baca09d4fd3fa9510aa39",
+      "finished_at": "2026-11-17T17:15:48.224246+00:00",
+      "hypotheses_only": true,
+      "max_calls": 40,
+      "mode": "full",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+      "n_rows": 16,
+      "pilot": {
+        "agreements": 1,
+        "disagreements": 2
+      },
+      "prompt_template_hashes": {
+        "agreement": "2387710cf09ca9c95a9da66c8cd0c91d71efea117468231fae552cba2041c92a",
+        "disagreement": "042f837307896570608a408731b794b665b17e897bf40779dd65c5818bda141a"
+      },
+      "provider": {
+        "cli_path": "/Applications/OpenCode.app/Contents/Resources/opencode-cli",
+        "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+        "provider": "opencode_cli",
+        "supports_temperature": false,
+        "temperature_requested": null,
+        "temperature_status": "not_requested"
+      },
+      "sample": {
+        "control_n": 10,
+        "method": "random",
+        "n": 6,
+        "seed": 20261116
+      },
+      "seeded_from_pilot": 3,
+      "selection_signature": "{\"control_n\": 10, \"method\": \"random\", \"n\": 6, \"prompt_version\": 1, \"seed\": 20261116, \"study\": \"c82f60858b624d9cc79d34521baf5a485d7d2e647d0bfba3c2112b260f6b26d7\", \"vocabulary_version\": 1}",
+      "status_counts": {
+        "ok": 16
+      },
+      "stopped_reason": null,
+      "vocabulary_version": 1
+    },
+    "08_qualitative_report": {
+      "finished_at": "2026-11-20T11:31:00.971181+00:00",
+      "hypotheses_only": true,
+      "narrative_path": "<project-root>/general-agent/runs/imdb_case_study/qualitative/narrative_report.md",
+      "narrative_sha256": "d46a4cdcacd0d0ba981793e3f3598b1fa49f0babe84e340ce216e67b644efe17",
+      "tables": {
+        "contrast": "<project-root>/general-agent/runs/imdb_case_study/qualitative/tables/q07_reason_contrast.csv",
+        "cooccurrence": "<project-root>/general-agent/runs/imdb_case_study/qualitative/tables/q03_cooccurrence.csv",
+        "coverage": "<project-root>/general-agent/runs/imdb_case_study/qualitative/tables/q05_coverage.csv",
+        "examples": "<project-root>/general-agent/runs/imdb_case_study/qualitative/tables/q04_examples.csv",
+        "patterns": "<project-root>/general-agent/runs/imdb_case_study/qualitative/tables/q02_patterns.csv"
+      }
+    }
+  },
+  "text_summary": {
+    "max_chars": 3772,
+    "median_chars": 940.0,
+    "min_chars": 213,
+    "n": 200,
+    "n_blank": 0
+  },
+  "tool": {
+    "name": "general-agent",
+    "version": "0.2.0"
+  },
+  "updated_at": "2026-11-20T11:31:00.971376+00:00",
+  "warnings": []
+}

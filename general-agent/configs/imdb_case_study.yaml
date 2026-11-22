@@ -1,0 +1,135 @@
+# ---------------------------------------------------------------------------
+# Case study 1 - IMDb sentiment, binary.
+#
+# Purpose: reproduce the existing project's verified numbers through the
+# generic agent, with ZERO new model calls, using the 200 predictions already
+# produced by src/workflow_13_run_classifier.py.
+#
+# Primary reference  = the 200 manual annotations (human_sentiment).
+# Secondary reference = the star-derived dataset label (imdb_label, 0/1).
+# The secondary reference exists only because this project has one; a typical
+# study has a single benchmark column.
+# ---------------------------------------------------------------------------
+
+run:
+  run_id: imdb_case_study
+  seed: 20261116
+  output_root: ../runs
+
+dataset:
+  path: ../../data/derived/workflow_classifier_input.csv   # review_id, text (blind input)
+  format: csv
+  id_column: review_id
+  text_column: text
+  predictions:
+    path: ../../data/derived/workflow_13_predictions_openrouter.csv
+    id_column: review_id
+    label_column: ai_sentiment
+    status_column: status
+    model_column: model
+    reuse: true
+
+benchmark:
+  path: ../inputs/imdb_benchmark.csv   # built by scripts/prepare_imdb_benchmark.py
+  format: csv
+  id_column: review_id
+  label_column: human_sentiment
+  extra_label_columns: [imdb_label]
+  # Report wording: the primary is one human's reading; the secondary is a
+  # proxy derived from ratings, not a second human annotator. Used by the
+  # report composer so the three-way section names each reference precisely.
+  reference_labels:
+    human_sentiment: "manual human annotation"
+    imdb_label: "star-derived IMDb proxy label"
+  label_map:
+    "0": negative
+    "1": positive
+  on_unknown_label: error
+  on_id_mismatch: error
+  allow_duplicate_ids: false
+
+labels:
+  mode: single_label
+  ordered: false
+  classes:
+    - name: positive
+      definition: "The reviewer's overall stance toward the film is favourable."
+    - name: negative
+      definition: "The reviewer's overall stance toward the film is unfavourable."
+
+sample:
+  n: null            # all 200 rows are used: this case study reproduces an existing run
+pilot:
+  n: 5               # 5 live calls, compared against the reused predictions
+
+task:
+  role: "a sentiment classifier for movie reviews"
+  decision_rule: >-
+    Judge the reviewer's opinion of the film itself, not of other reviewers,
+    the film industry, or anything else. If the review is mixed or ironic,
+    follow the reviewer's final overall verdict about the film.
+  forbid_outside_knowledge: true
+  output_contract: "ANSWER: {class}"
+
+model:
+  provider: opencode_cli
+  name: openrouter/deepseek/deepseek-v4.1-flash-1017
+  temperature: null
+  temperature_note: >-
+    The CLI used for this project exposes no temperature flag; the original
+    workflow recorded temperature as not settable. Recorded as unverified.
+  max_output_tokens: null
+  timeout_s: 180
+  max_attempts: 3
+  concurrency: 1
+
+budget:
+  # Pilot only (5 calls). The case study itself reuses an existing prediction
+  # file, so a full live run would be blocked once these 5 calls are spent.
+  max_calls: 5
+  max_usd: 0.05
+  price_per_million:
+    input: 0.036   # catalog price at pilot time (verified 2026-11-16)
+    output: 0.50
+
+evaluation:
+  ci_level: 0.95
+  bootstrap_draws: 2000
+  kappa: [unweighted]
+  abstention_policy: [exclude, count_as_error]
+  subgroup_columns:
+    - human_sarcasm
+    - human_mixed
+    - human_ambiguous
+    - human_complex
+    - human_straightforward
+  # The reference class for the hypothesis test: every difficulty flag is 0.
+  subgroup_reference: human_straightforward
+  # Composites are single exploratory contrasts, not part of the flag family.
+  subgroup_composites:
+    ambiguous_or_complex: [human_ambiguous, human_complex]
+    any_difficulty: [human_sarcasm, human_mixed, human_ambiguous, human_complex]
+
+report:
+  title: "AI versus human sentiment classification - IMDb case study"
+  author: "Business Analytics project"
+  task_description: "Binary sentiment classification of long movie reviews."
+  reference_description: "Primary: manual annotation of 200 reviews. Secondary: star-derived IMDb label (0/1)."
+  # The manual annotation is a blind, text-based reading and is the primary
+  # reference; the star-derived label is not read from the text. The plan's
+  # dataset-label comparison is retained as a secondary reference.
+  primary_reference_rationale: >-
+    The 200 manual annotations are the primary reference: they are a blind,
+    text-based reading of each review, so they share the same construct as the
+    classifier's task. The star-derived IMDb label is not derived from the
+    review text. Both are reported; neither is adjudicated truth.
+  hypothesis: >-
+    AI classification accuracy will be lower for ambiguous or linguistically
+    complex reviews than for straightforward reviews.
+  hypothesis_group: ambiguous_or_complex
+  hypothesis_reference: imdb_label
+  limitations:
+    - "The 200 predictions were produced by a previous run and are reused verbatim; this stage makes no model calls."
+    - "The star-derived IMDb label comes from ratings, not from reading the text; it is a reference, not truth."
+    - "Pretraining contamination with IMDb-like text cannot be ruled out."
+    - "No human-human agreement estimate exists for the manual annotations."

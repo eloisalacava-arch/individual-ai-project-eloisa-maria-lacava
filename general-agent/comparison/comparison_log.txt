@@ -1,0 +1,5 @@
+script: general-agent compare (version 0.7.0)
+started: 2026-11-19T11:38:26.134298+00:00
+configs: 2
+collected: imdb_case_study (n=200, classes=2, qualitative=yes)
+collected: phrasebank_75agree (n=300, classes=3, qualitative=yes)

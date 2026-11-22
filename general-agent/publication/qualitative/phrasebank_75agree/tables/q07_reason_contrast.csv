@@ -1,0 +1,8 @@
+reason,share_disagreements,share_control,difference_disagreements_minus_control
+reference_label_ambiguity,0.160000,0.000000,0.160000
+category_definition_overlap,0.440000,0.300000,0.140000
+subtle_or_low_intensity_sentiment,0.680000,0.600000,0.080000
+domain_or_world_knowledge,0.640000,0.600000,0.040000
+mixed_or_conflicting_signals,0.120000,0.100000,0.020000
+text_noise_or_truncation,0.120000,0.200000,-0.080000
+insufficient_context_in_observation,0.800000,0.900000,-0.100000

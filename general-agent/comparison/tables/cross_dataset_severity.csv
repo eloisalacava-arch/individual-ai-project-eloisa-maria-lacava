@@ -1,0 +1,6 @@
+dataset,ordinal_distance,bucket,n,share,ci_low,ci_high,ci_method
+imdb_case_study,0,agree,194,0.970000,0.936106,0.986180,wilson
+imdb_case_study,1,opposite,6,0.030000,0.013820,0.063894,wilson
+phrasebank_75agree,0,agree,274,0.913333,0.876044,0.940171,wilson
+phrasebank_75agree,1,adjacent,23,0.076667,0.051628,0.112410,wilson
+phrasebank_75agree,2,opposite,3,0.010000,0.003407,0.028983,wilson

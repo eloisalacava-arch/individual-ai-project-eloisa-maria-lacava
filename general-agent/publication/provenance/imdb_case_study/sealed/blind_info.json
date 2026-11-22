@@ -1,0 +1,42 @@
+{
+  "blind_sha256": "bce949bca052405b92f85355b9a07315f86deccc6ef40f3d536d47591a56f7a7",
+  "class_names": [
+    "positive",
+    "negative"
+  ],
+  "created_at": "2026-11-16T18:48:31.484895+00:00",
+  "n_selected": 200,
+  "reference_columns": [
+    "human_sentiment",
+    "imdb_label"
+  ],
+  "reference_distributions": {
+    "human_sentiment": {
+      "negative": 97,
+      "positive": 103
+    },
+    "imdb_label": {
+      "0": 98,
+      "1": 102
+    }
+  },
+  "run_id": "imdb_case_study",
+  "sample": {
+    "method": "random",
+    "requested_n": null,
+    "selected_n": 200,
+    "stratified": false,
+    "unique_text": true
+  },
+  "sealed_sha256": "4001026104210e05b553c66f2121e00f179a0f920011c6f3a59f4d632e428fe0",
+  "seed": 20261116,
+  "source_benchmark": "<project-root>/general-agent/inputs/imdb_benchmark.csv",
+  "source_dataset": "<project-root>/data/derived/workflow_classifier_input.csv",
+  "subgroup_columns": [
+    "human_sarcasm",
+    "human_mixed",
+    "human_ambiguous",
+    "human_complex",
+    "human_straightforward"
+  ]
+}

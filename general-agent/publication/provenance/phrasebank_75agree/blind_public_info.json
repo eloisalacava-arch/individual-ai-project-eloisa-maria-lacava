@@ -1,0 +1,19 @@
+{
+  "blind_sha256": "cd41ca2e8488605be96194de25c17ef14818e28b16c0188d04414da1ca3f3be5",
+  "class_names": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "created_at": "2026-11-16T18:48:32.169424+00:00",
+  "n_selected": 300,
+  "run_id": "phrasebank_75agree",
+  "sample": {
+    "method": "random",
+    "requested_n": 300,
+    "selected_n": 300,
+    "stratified": false,
+    "unique_text": true
+  },
+  "seed": 20261116
+}

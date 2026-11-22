@@ -1,0 +1,9 @@
+reason,share_disagreements,share_control,difference_disagreements_minus_control
+reference_label_ambiguity,0.833333,0.000000,0.833333
+category_definition_overlap,0.333333,0.000000,0.333333
+mixed_or_conflicting_signals,1.000000,0.700000,0.300000
+subtle_or_low_intensity_sentiment,0.500000,0.400000,0.100000
+figurative_or_sarcastic_language,0.166667,0.100000,0.066667
+other,0.000000,0.100000,-0.100000
+text_noise_or_truncation,0.000000,0.100000,-0.100000
+domain_or_world_knowledge,0.000000,0.500000,-0.500000

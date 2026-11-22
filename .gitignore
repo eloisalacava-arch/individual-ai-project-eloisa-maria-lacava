@@ -1,0 +1,38 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# macOS and editor metadata
+.DS_Store
+
+# Local secrets and credentials
+.env
+.env.*
+secrets/
+
+# Test caches
+.pytest_cache/
+
+# Archives and temporary files
+*.zip
+*.tmp
+
+# Raw datasets are not redistributed
+data/raw/
+
+# Source-text inputs and annotator identifiers are not redistributed
+data/annotations.csv
+data/annotations.xlsx
+data/derived/workflow_classifier_input.csv
+data/derived/blind_sample.csv
+data/derived/workflow_joined.csv
+
+# Local backup
+plan.md.save

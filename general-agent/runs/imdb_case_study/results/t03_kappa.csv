@@ -1,0 +1,2 @@
+metric,weighting,value,ci_low,ci_high,ci_method,bootstrap_draws,valid_draws,seed,note
+cohen_kappa_unweighted,none,0.939910,0.889378,0.979998,bootstrap_percentile,2000,2000,20261116,chance-corrected agreement; depends on the marginal distribution

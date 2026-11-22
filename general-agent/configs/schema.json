@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/general-agent/config.schema.json",
+  "title": "General Agent run configuration",
+  "description": "One YAML file per study. Paths are resolved relative to the directory containing this file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run", "dataset", "benchmark", "labels", "task", "model", "budget"],
+  "properties": {
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "seed"],
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$",
+          "description": "Stable, explicit run identifier. Never auto-renamed."
+        },
+        "seed": {
+          "type": "integer",
+          "description": "Fixed random seed for sampling, bootstrap, and any subset selection."
+        },
+        "output_root": {
+          "type": "string",
+          "minLength": 1,
+          "default": "runs"
+        }
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "anyOf": [
+        { "required": ["text_column"] },
+        { "required": ["text_template"] }
+      ],
+      "properties": {
+        "path": { "$ref": "#/$defs/relativePath" },
+        "format": { "$ref": "#/$defs/tableFormat" },
+        "delimiter": { "$ref": "#/$defs/delimiter" },
+        "encoding": { "$ref": "#/$defs/encoding" },
+        "id_column": {
+          "type": ["string", "null"],
+          "description": "Null or omitted means: let the audit propose one and ask if ambiguous."
+        },
+        "text_column": {
+          "type": ["string", "null"],
+          "description": "The observation text. Null allowed only when text_template is set."
+        },
+        "text_template": {
+          "type": ["string", "null"],
+          "description": "Optional composition, e.g. '{title}\\n\\n{body}'. Fields are dataset column names."
+        },
+        "predictions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "label_column"],
+          "properties": {
+            "path": { "$ref": "#/$defs/relativePath" },
+            "format": { "$ref": "#/$defs/tableFormat" },
+            "delimiter": { "$ref": "#/$defs/delimiter" },
+            "encoding": { "$ref": "#/$defs/encoding" },
+            "id_column": { "type": ["string", "null"] },
+            "label_column": { "type": "string" },
+            "status_column": { "type": ["string", "null"] },
+            "model_column": { "type": ["string", "null"] },
+            "reuse": {
+              "type": "boolean",
+              "default": true,
+              "description": "true: validate and reuse an existing prediction file (zero model calls)."
+            }
+          }
+        }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relativePath" },
+        "format": { "$ref": "#/$defs/tableFormat" },
+        "delimiter": { "$ref": "#/$defs/delimiter" },
+        "encoding": { "$ref": "#/$defs/encoding" },
+        "id_column": { "type": ["string", "null"] },
+        "label_column": {
+          "type": ["string", "null"],
+          "description": "Primary human reference. The classifier never reads this file."
+        },
+        "extra_label_columns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "default": [],
+          "description": "Additional reference columns (e.g. a second human reference or a star-derived label). Each is evaluated separately."
+        },
+        "reference_labels": {
+          "type": "object",
+          "description": "Human-readable name for each reference column (primary or extra), used in reports so a star-derived proxy label is not described as a second human annotator.",
+          "additionalProperties": { "type": "string" }
+        },
+        "label_map": {
+          "type": "object",
+          "description": "Raw value -> canonical class name. Keys are compared as trimmed strings. Applied to the primary and every extra label column; a value that already equals a declared class name passes through unchanged. Mandatory when raw labels are numeric or otherwise not canonical names.",
+          "additionalProperties": { "type": "string" }
+        },
+        "on_unknown_label": {
+          "type": "string",
+          "enum": ["error", "exclude"],
+          "default": "error",
+          "description": "What to do with a benchmark label that is outside the declared class set after label_map."
+        },
+        "on_id_mismatch": {
+          "type": "string",
+          "enum": ["error", "inner_join"],
+          "default": "error",
+          "description": "error: stop and ask. inner_join: keep the intersection, printing every dropped row count and reason."
+        },
+        "allow_duplicate_ids": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classes"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["single_label"],
+          "default": "single_label",
+          "description": "Multi-label classification is out of scope for v0.1 and rejected here rather than half-supported."
+        },
+        "ordered": {
+          "type": "boolean",
+          "default": false,
+          "description": "true enables weighted kappa in addition to unweighted kappa."
+        },
+        "classes": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "definition"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$",
+                "description": "Canonical class name. Use a slug, not free text."
+              },
+              "definition": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Shown to the classifier. Must not reveal benchmark distribution."
+              }
+            }
+          }
+        }
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional seeded subset selection, applied by stage 02 (blind). No stratification: the natural class distribution is preserved.",
+      "properties": {
+        "n": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "Number of observations to use. null or omitted means: use every row."
+        },
+        "unique_text": {
+          "type": "boolean",
+          "default": true,
+          "description": "Skip a drawn row whose observation text was already selected."
+        },
+        "method": {
+          "type": "string",
+          "enum": ["random", "head"],
+          "default": "random",
+          "description": "random: seeded shuffle without stratification. head: first n rows in file order (debugging only)."
+        }
+      }
+    },
+    "pilot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 5,
+          "description": "Observations classified before the approval checkpoint."
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "output_contract"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "One sentence naming the classification task for the prompt preamble."
+        },
+        "decision_rule": {
+          "type": "string",
+          "description": "Optional tie-break or scope rule (e.g. judge the reviewer's final verdict)."
+        },
+        "forbid_outside_knowledge": {
+          "type": "boolean",
+          "default": true
+        },
+        "output_contract": {
+          "type": "string",
+          "pattern": "\\{class\\}",
+          "description": "Must contain the placeholder {class}. Example: 'ANSWER: {class}'"
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "name"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["opencode_cli", "openai_compatible"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "provider/model as passed to the provider. Recorded verbatim in every log line."
+        },
+        "temperature": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Requested value only. Opencode CLI has no temperature flag; it is injected through provider/model request body config. Support is not guaranteed."
+        },
+        "temperature_note": {
+          "type": "string"
+        },
+        "max_output_tokens": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "timeout_s": {
+          "type": "integer",
+          "minimum": 5,
+          "default": 180
+        },
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 3
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8,
+          "default": 1
+        },
+        "cli_path": {
+          "type": ["string", "null"],
+          "description": "Absolute path to the opencode CLI binary (opencode_cli provider only)."
+        },
+        "base_url": {
+          "type": ["string", "null"],
+          "description": "OpenAI-compatible endpoint (openai_compatible provider only)."
+        },
+        "api_key_env": {
+          "type": ["string", "null"],
+          "description": "Name of the environment variable holding the key. Never the key itself."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "provider": { "const": "openai_compatible" } } },
+          "then": { "required": ["base_url", "api_key_env"] }
+        }
+      ]
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_calls"],
+      "properties": {
+        "max_calls": { "type": "integer", "minimum": 1 },
+        "max_usd": { "type": ["number", "null"], "minimum": 0 },
+        "price_per_million": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["input", "output"],
+          "properties": {
+            "input": { "type": "number", "minimum": 0 },
+            "output": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ci_level": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1, "default": 0.95 },
+        "bootstrap_draws": { "type": "integer", "minimum": 100, "default": 2000 },
+        "kappa": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["unweighted", "linear", "quadratic"] },
+          "uniqueItems": true,
+          "default": ["unweighted"]
+        },
+        "abstention_policy": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["exclude", "count_as_error"] },
+          "minItems": 1,
+          "uniqueItems": true,
+          "default": ["exclude", "count_as_error"]
+        },
+        "subgroup_columns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "default": []
+        },
+        "subgroup_reference": {
+          "type": ["string", "null"],
+          "description": "Subgroup column whose ==1 rows form the comparison reference (for example a derived 'straightforward' flag)."
+        },
+        "subgroup_composites": {
+          "type": "object",
+          "description": "Named composites of subgroup columns, tested as single exploratory contrasts.",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 2,
+            "uniqueItems": true
+          },
+          "default": {}
+        }
+      }
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "limitations": { "type": "array", "items": { "type": "string" } },
+        "task_description": { "type": "string" },
+        "reference_description": { "type": "string" },
+        "primary_reference_rationale": {
+          "type": "string",
+          "description": "Why this study treats the named primary reference as primary."
+        },
+        "hypothesis": {
+          "type": "string",
+          "description": "The study's pre-specified hypothesis, quoted in the report."
+        },
+        "hypothesis_group": {
+          "type": "string",
+          "description": "Subgroup (flag or composite) whose contrast carries the hypothesis verdict."
+        },
+        "hypothesis_reference": {
+          "type": "string",
+          "description": "The reference the plan's hypothesis is tested against."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Resolved relative to the directory of this configuration file."
+    },
+    "tableFormat": {
+      "type": "string",
+      "enum": ["auto", "csv", "parquet", "jsonl"],
+      "default": "auto"
+    },
+    "delimiter": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1,
+      "default": ","
+    },
+    "encoding": {
+      "type": "string",
+      "default": "utf-8"
+    }
+  }
+}

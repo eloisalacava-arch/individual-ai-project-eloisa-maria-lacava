@@ -1,0 +1,13 @@
+reference,subgroup,family,n_subgroup,n_reference,errors_subgroup,errors_reference,rate_subgroup,rate_reference,risk_difference,rd_ci_low,rd_ci_high,rd_ci_method,fisher_p,bh_q,verdict,ci_level
+human_sentiment,human_sarcasm,pre_specified,25,106,1,0,0.040000,0.000000,0.040000,-0.008018,0.195441,newcombe_hybrid_score,0.190840,0.190840,lower_accuracy_inconclusive,0.950000
+human_sentiment,human_mixed,pre_specified,50,106,4,0,0.080000,0.000000,0.080000,0.020246,0.188382,newcombe_hybrid_score,0.009701,0.019403,lower_accuracy_significant,0.950000
+human_sentiment,human_ambiguous,pre_specified,40,106,5,0,0.125000,0.000000,0.125000,0.046387,0.261121,newcombe_hybrid_score,0.001276,0.005102,lower_accuracy_significant,0.950000
+human_sentiment,human_complex,pre_specified,20,106,2,0,0.100000,0.000000,0.100000,0.019836,0.301034,newcombe_hybrid_score,0.024127,0.032169,lower_accuracy_significant,0.950000
+human_sentiment,ambiguous_or_complex,composite,50,106,6,0,0.120000,0.000000,0.120000,0.047222,0.238048,newcombe_hybrid_score,0.000875,,lower_accuracy_significant,0.950000
+human_sentiment,any_difficulty,composite,94,106,6,0,0.063830,0.000000,0.063830,0.014879,0.132330,newcombe_hybrid_score,0.009880,,lower_accuracy_significant,0.950000
+imdb_label,human_sarcasm,pre_specified,25,106,2,2,0.080000,0.018868,0.061132,-0.013559,0.231344,newcombe_hybrid_score,0.164377,0.219170,lower_accuracy_inconclusive,0.950000
+imdb_label,human_mixed,pre_specified,50,106,6,2,0.120000,0.018868,0.101132,0.021673,0.219970,newcombe_hybrid_score,0.013735,0.054939,lower_accuracy_significant,0.950000
+imdb_label,human_ambiguous,pre_specified,40,106,3,2,0.075000,0.018868,0.056132,-0.012113,0.180529,newcombe_hybrid_score,0.126640,0.219170,lower_accuracy_inconclusive,0.950000
+imdb_label,human_complex,pre_specified,20,106,0,2,0.000000,0.018868,-0.018868,-0.066199,0.142837,newcombe_hybrid_score,1.000000,1.000000,higher_accuracy_inconclusive,0.950000
+imdb_label,ambiguous_or_complex,composite,50,106,3,2,0.060000,0.018868,0.041132,-0.020443,0.144215,newcombe_hybrid_score,0.328335,,lower_accuracy_inconclusive,0.950000
+imdb_label,any_difficulty,composite,94,106,9,2,0.095745,0.018868,0.076877,0.011875,0.154390,newcombe_hybrid_score,0.026352,,lower_accuracy_significant,0.950000

@@ -1,0 +1,12 @@
+{
+  "approved_at": "2026-11-16T18:53:43.731682+00:00",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+  "n_ok": 5,
+  "n_pilot": 5,
+  "note": "user-approved pilot; call cap raised to 320",
+  "pilot_predictions_sha256": "9d139699526948784725a3849b0a3587d35ddb2bccb5626516492ede48c59f0d",
+  "prompt_template_sha": "c6f9a2578080634ef4dc1a2786ead064eb1d6cd045572b995f96210e000f5d04",
+  "provider": "opencode_cli",
+  "temperature_requested": null,
+  "temperature_status": "not_requested"
+}

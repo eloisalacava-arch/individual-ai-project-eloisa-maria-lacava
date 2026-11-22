@@ -1,0 +1,48 @@
+{
+  "configs": [
+    {
+      "path": "<project-root>/general-agent/configs/imdb_case_study.yaml",
+      "results_tables": {
+        "t02_accuracy.csv": "3717f7034c3b414faf48d99baa81ff25f0fe982669c87c136684635481605ee2",
+        "t03_kappa.csv": "c297fdc7276eae7d08c4f69e3127b6ad0a25ce2e03f93def715f7b5c3a8a9f00",
+        "t05_per_class_metrics.csv": "f178ac29ef35e74b43947cb958fcecd7050fbec20b83ea123d49d7a0530aa6f0",
+        "t06_class_distribution.csv": "c5f9f2910ee1ad0665a74c4734f5bc45b335d05712b5ca6017f93ba3f1ecc43e",
+        "t07_ordinal_errors.csv": "a22ec630bcac0f71fcababb28e65cd60cc68553b7c047e1401c9d46a9a13d264",
+        "t11_disagreement_pairs.csv": "05caef65aa2bfbd7855dd755f0300401caa3631a707ecfc96607419d7618d2dd"
+      },
+      "run_id": "imdb_case_study",
+      "sha256": "c850923fe261347d38e8fd443a340a6df3cb21e913c4305402d57c608fce4e3e"
+    },
+    {
+      "path": "<project-root>/general-agent/configs/case2_phrasebank.yaml",
+      "results_tables": {
+        "t02_accuracy.csv": "8bf89fe20122d3736123ca442b51f2c49a1dd7f91e6eb48ffb2d5498a9b90580",
+        "t03_kappa.csv": "ed8e05e09d5a6f17828a7fec4f62d60df79a7936b3176f5946e3f1e5c3c7c57a",
+        "t05_per_class_metrics.csv": "5f39f857a793a13adb566990fa87e4f029e6f7e8e4fb2966a9fea7592dfaa704",
+        "t06_class_distribution.csv": "7e67409b28ea38f208388bd9a22a24dc47c17abf0c45d2de84321a34ea29eeec",
+        "t07_ordinal_errors.csv": "63c06bec106531c4a147e3c284b56b1752c4c6cc98155d8e23fbca57b0f97625",
+        "t11_disagreement_pairs.csv": "93c260118fcc1ab0ee4b8da670c805fbeab3235822ac7cd83ed3c27d09fab1dd"
+      },
+      "run_id": "phrasebank_75agree",
+      "sha256": "7bf1eaffbfb5b743d6d8a2477f991624c8c49104d8048988b05cd8b88e6e3eb9"
+    }
+  ],
+  "figures": [
+    "fig1_accuracy_kappa.svg",
+    "fig2_class_recall.svg",
+    "fig3_severity.svg"
+  ],
+  "finished_at": "2026-11-19T11:38:26.261632+00:00",
+  "tables": [
+    "cross_dataset_metrics.csv",
+    "cross_dataset_classes.csv",
+    "cross_dataset_severity.csv",
+    "cross_dataset_references.csv",
+    "cross_dataset_pairs.csv",
+    "cross_dataset_text.csv"
+  ],
+  "tool": {
+    "name": "general-agent",
+    "version": "0.7.0"
+  }
+}

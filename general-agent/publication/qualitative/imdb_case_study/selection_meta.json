@@ -1,0 +1,23 @@
+{
+  "accounting": [
+    {
+      "reason": "seeded random draw, n=6, seed=20261116",
+      "rows_after": 6,
+      "rows_before": 6,
+      "rows_dropped": 0,
+      "step": "disagreements selected"
+    },
+    {
+      "reason": "seeded random draw, control_n=10, seed=20261117",
+      "rows_after": 10,
+      "rows_before": 194,
+      "rows_dropped": 184,
+      "step": "agreement control selected"
+    }
+  ],
+  "n_agreements": 10,
+  "n_disagreements": 6,
+  "n_selected": 16,
+  "seed": 20261116,
+  "signature": "{\"control_n\": 10, \"method\": \"random\", \"n\": 6, \"prompt_version\": 1, \"seed\": 20261116, \"study\": \"c82f60858b624d9cc79d34521baf5a485d7d2e647d0bfba3c2112b260f6b26d7\", \"vocabulary_version\": 1}"
+}

@@ -1,0 +1,57 @@
+script: general-agent evaluate (version 0.4.0)
+started: 2026-11-16T19:23:00.586677+00:00
+config: <project-root>/general-agent/configs/case2_phrasebank.yaml
+run_id: phrasebank_75agree | seed: 20261116 | CI level: 0.95 | bootstrap draws: 2000
+declared classes (order used for ordinal distance): ['negative', 'neutral', 'positive']
+
+== Step 1: freeze predictions (benchmark not yet opened) ==
+frozen: 300 rows, sha256 d5930064ea792c92...
+status counts: {'ok': 300}
+models: ['openrouter/deepseek/deepseek-v4.1-flash-1017']
+[PASS] frozen_file_matches_source: the scored copy is byte-identical to predictions.csv at freeze time
+
+== Step 2: open sealed reference and join ==
+sealed reference read at 2026-11-16T19:23:00.591225+00:00: 300 rows, sha256 c64a22e37d33eb79...
+[PASS] benchmark_opened_after_freeze: freeze 2026-11-16T19:23:00.590707+00:00 <= read 2026-11-16T19:23:00.591225+00:00
+[PASS] frozen_nonzero_rows: 300 rows
+[PASS] benchmark_nonzero_rows: 300 rows
+[PASS] frozen_ids_unique: 0 duplicate ID(s) of 300
+[PASS] benchmark_ids_unique: 0 duplicate ID(s) of 300
+[PASS] every_prediction_has_a_reference: 0 prediction ID(s) without a benchmark row
+[PASS] every_reference_has_a_prediction: 0 benchmark ID(s) without a prediction
+rows: 300 -> 300 (reason: inner join on id; 0 prediction row(s) dropped because no reference matched)
+[PASS] join_kept_every_row: 300 joined of 300 frozen
+rows: 300 -> 300 (reason: reference rows restricted to matched IDs; 0 excluded)
+[PASS] primary_reference_mappable: mapped onto ['negative', 'neutral', 'positive']
+rows: 300 -> 300 (reason: status == 'ok'; 0 row(s) excluded as failed predictions)
+[PASS] no_failed_predictions: 0 non-ok prediction(s)
+[PASS] reference_domain: reference values: ['negative', 'neutral', 'positive']
+
+== Step 3: metrics ==
+
+== Step 4: disagreements (not confirmed errors) ==
+[PASS] disagreement_count_reconciles: 26 disagreement(s) = 300 - 274
+
+== Results ==
+n analysed: 300 | correct: 274 | disagreements: 26
+accuracy: 0.913333 (95% Wilson 0.876044-0.940171)
+balanced accuracy: 0.912748 (bootstrap 0.877124-0.944422)
+kappa unweighted: 0.841405 (bootstrap 0.783190-0.896810)
+kappa quadratic: 0.845733 (bootstrap 0.769251-0.909394)
+ordinal buckets: {'agree': 274, 'adjacent': 23, 'opposite': 3}
+  negative n=38  precision=0.841 recall=0.974 f1=0.902
+  neutral  n=182 precision=0.934 recall=0.940 f1=0.937
+  positive n=80  precision=0.904 recall=0.825 f1=0.863
+
+== Method notes ==
+- Confusion matrix orientation: rows = human reference, columns = AI.
+- Accuracy and recall CIs: Wilson score. Kappa, balanced accuracy, precision and F1: seeded percentile bootstrap.
+- The benchmark is a majority verdict at >=75% annotator agreement, not an adjudicated gold standard; per-annotator labels are not released, so human-human kappa is not computable and the published agreement is item-level, not kappa.
+- Disagreements are not confirmed errors. Zero confirmed errors are estimable with this data; see t10_error_status.csv.
+- Ordinal distance is a severity proxy (adjacent vs opposite), not evidence about which label is right.
+- No causal claims: these are associations between predicted and reference labels on one unstratified sample from the 75% subset.
+- 0 failed predictions in this run, so both abstention policies coincide; the exclusion is recorded in t01_join_and_sample.csv.
+- Transparency: aggregate benchmark class counts were seen before classification (to report the sampling frame). No per-row reference value entered the prompt or the classifier, and this evaluation still freezes predictions before opening the benchmark.
+
+checks passed: 13/13
+evaluation status: PASS

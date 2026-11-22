@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# Sidecar settings for stage 08 (qualitative disagreement analysis).
+#
+# This file is intentionally separate from the study configuration: the study
+# YAML is frozen after classification, and stage 08 must not edit it. Point
+# study_config at the study and (optionally) record its sha256 as a guard.
+#
+# Validation: configs/qualitative_schema.json. Run with:
+#   python scripts/08_qualitative.py --config configs/my_study.yaml \
+#       --settings configs/my_qualitative.yaml --pilot
+# then --approve, --run, --report.
+# ---------------------------------------------------------------------------
+
+study_config:
+  path: ../configs/my_study.yaml     # resolved relative to THIS file when relative
+  sha256: null                       # optional: refuse if the study changed
+
+# Model that proposes explanations. Omit to reuse the study model.
+# A different model from the classifier is allowed, and avoids asking a model to
+# justify its own predictions.
+model:
+  provider: opencode_cli
+  name: openrouter/deepseek/deepseek-v4.1-flash-1017
+  temperature: null
+  timeout_s: 180
+  max_attempts: 2
+  concurrency: 1
+
+sample:
+  n: 25            # disagreements to explain (seeded, unstratified draw)
+  control_n: 10    # agreements to explain as a control (0 disables the control)
+  method: random
+  seed: 20261116
+
+pilot:
+  disagreements: 2
+  agreements: 1
+
+budget:
+  max_calls: 45    # pilot + sample + control + retry buffer; hard cap
+  max_usd: 0.25
+  price_per_million:
+    input: 0.036
+    output: 0.50
+
+prompt_version: 1
+vocabulary_version: 1
+
+report:
+  title: "AI versus human classification - qualitative review"
+  author: ""
+  limitations: []

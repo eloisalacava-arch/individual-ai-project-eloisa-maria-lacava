@@ -1,0 +1,113 @@
+# ---------------------------------------------------------------------------
+# Template study configuration for general-agent.
+#
+# Copy this file, edit the paths and the class definitions, then run:
+#   python scripts/00_configure.py --config configs/my_study.yaml
+#   python scripts/01_audit.py     --config configs/my_study.yaml
+#
+# Every path resolves relative to THIS file's directory.
+# Validate against configs/schema.json for editor completion.
+# ---------------------------------------------------------------------------
+
+run:
+  run_id: my_study          # explicit, stable; never auto-renamed
+  seed: 20261116            # fixed seed: sampling, bootstrap, subsets
+  output_root: ../runs         # runs/<run_id>/ holds every artefact
+
+dataset:
+  # The observations to classify. May contain extra metadata columns; only the
+  # ID and the text are ever passed to the classifier.
+  path: ../inputs/my_dataset.csv
+  format: auto              # auto | csv | parquet | jsonl
+  delimiter: ","
+  encoding: utf-8
+  id_column: null           # null -> the audit proposes one; ambiguity asks
+  text_column: null         # null -> the audit proposes one
+  # text_template: "{title}\n\n{body}"   # alternative to text_column
+  #
+  # Optional: reuse an existing prediction file instead of making model calls.
+  # predictions:
+  #   path: ../inputs/existing_predictions.csv
+  #   id_column: null
+  #   label_column: predicted_label
+  #   status_column: null
+  #   model_column: null
+  #   reuse: true
+
+benchmark:
+  # The human reference. Held separately; never read by the classifier.
+  path: ../inputs/my_benchmark.csv
+  format: auto
+  id_column: null
+  label_column: null        # primary reference; null -> audit proposes/asks
+  extra_label_columns: []   # additional references, each evaluated separately
+  # Raw value -> declared class name. Keys are trimmed strings. MANDATORY when
+  # raw labels are numeric or not already canonical names: polarity is never
+  # inferred.
+  # label_map:
+  #   "0": negative
+  #   "1": positive
+  on_unknown_label: error   # error | exclude (exclusions are printed with counts)
+  on_id_mismatch: error     # error | inner_join (drops are printed with counts)
+  allow_duplicate_ids: false
+
+labels:
+  mode: single_label        # multi-label is out of scope for v0.1
+  ordered: false            # true only for ordinal classes; enables weighted kappa
+  classes:
+    - name: positive
+      definition: "The observation expresses a favourable overall stance."
+    - name: negative
+      definition: "The observation expresses an unfavourable overall stance."
+
+sample:
+  n: null                   # null = use every row; an integer = seeded subset
+  unique_text: true         # skip a drawn row whose text is already selected
+  method: random            # NEVER stratified: the natural class distribution is kept
+  # seed comes from run.seed; the draw is reproducible and logged
+
+pilot:
+  n: 5                      # classification stops here until the pilot is approved
+
+task:
+  role: "a classifier for short user-written observations"
+  decision_rule: "Judge the overall stance expressed by the observation text."
+  forbid_outside_knowledge: true
+  output_contract: "ANSWER: {class}"   # must contain {class}; one line, no explanation
+
+model:
+  provider: opencode_cli    # opencode_cli | openai_compatible
+  name: openrouter/deepseek/deepseek-v4.1-flash-1017
+  # The opencode CLI has no temperature flag. A value here is a REQUEST that
+  # must be injected through provider/model request-body config; support is not
+  # guaranteed. Recorded in the manifest as requested_unverified.
+  temperature: null
+  temperature_note: "not settable via CLI flags; see SPEC.md section 2"
+  max_output_tokens: null
+  timeout_s: 180
+  max_attempts: 3
+  concurrency: 1
+  # cli_path: "/Applications/OpenCode.app/Contents/Resources/opencode-cli"
+  #
+  # For provider: openai_compatible
+  # base_url: "https://api.example.com/v1"
+  # api_key_env: "MY_API_KEY"       # NAME of the env var, never the key
+
+budget:
+  max_calls: 50             # hard cap; the run stops before exceeding it
+  max_usd: 1.00
+  price_per_million:
+    input: 0.038
+    output: 0.50
+
+evaluation:
+  ci_level: 0.95
+  bootstrap_draws: 2000
+  kappa: [unweighted]       # add quadratic only when labels.ordered is true
+  abstention_policy: [exclude, count_as_error]
+  subgroup_columns: []
+
+report:
+  title: "AI versus human classification"
+  author: ""
+  limitations: []
