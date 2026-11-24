@@ -15,7 +15,9 @@ __pycache__/
 build/
 dist/
 *.egg-info/
-.streamlit/
+# Keep the localhost/theme config in the repository, but never commit secrets.
+.streamlit/*
+!.streamlit/config.toml
 
 # Credentials must never be committed
 .env

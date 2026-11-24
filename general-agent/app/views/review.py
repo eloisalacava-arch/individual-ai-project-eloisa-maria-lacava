@@ -223,8 +223,7 @@ def render() -> None:
             model = registry.find_model(provider_id, model_name)
             key_env, present = registry.credential_status(model, provider)
             if key_env and not present:
-                st.warning(f"Credential `{key_env}` is not set; validation and "
-                           "sealing still work, classification needs it.")
+                st.warning(registry.missing_key_message(key_env))
             columns = st.columns(2)
             with columns[0]:
                 p_number("Classification call cap", "max_calls", min_value=6,

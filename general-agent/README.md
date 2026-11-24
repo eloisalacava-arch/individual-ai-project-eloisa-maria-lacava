@@ -21,13 +21,16 @@ runs after predictions are frozen.
 ## Install
 
 ```bash
-cd general-agent
+git clone <repository-url> my-analysis
+cd my-analysis/general-agent
 uv sync --extra dev          # creates .venv and installs dependencies
 ```
 
 Without `uv`:
 
 ```bash
+git clone <repository-url> my-analysis
+cd my-analysis/general-agent
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 ```
 
@@ -37,12 +40,17 @@ The HTTP provider uses only the standard library.
 For the Streamlit interface, add the optional extra:
 
 ```bash
+cd general-agent
 uv sync --extra ui --extra dev
 uv run streamlit run app/streamlit_app.py
 ```
 
+Without `uv`, use `.venv/bin/pip install -e ".[ui]"` instead.
+
 The interface binds to `127.0.0.1`, never asks for a credential, and reuses the
-stages below rather than reimplementing them. Its default three-step flow is the
+stages below rather than reimplementing them. It starts with no provider
+installed and no model call: the OpenCode CLI is **not** required to launch the
+interface or to inspect results. Its default three-step flow is the
 **recommended workflow** for a new study (see *Recommended workflow* below); the
 original seven-step flow is kept behind **Advanced mode**. See `app/README.md`.
 
@@ -53,6 +61,23 @@ uv sync --extra ui --extra pdf --extra dev
 ```
 
 Without it, every report is still produced as Markdown.
+
+### Running with your own OpenRouter key (no OpenCode account)
+
+`configs/ui_providers.yaml` enables two providers: an `openai_compatible`
+**OpenRouter** entry, which is the interface's **default selection**, and the
+local `opencode_cli`. To classify with your own key, export it in the same shell
+that starts Streamlit; no dropdown change is needed:
+
+```bash
+export OPENROUTER_API_KEY="sk-or-..."
+cd general-agent
+uv run streamlit run app/streamlit_app.py
+```
+
+`.env` and `.env.*` are gitignored but are **not loaded automatically**; only
+variables exported in that shell are visible. The key is never entered,
+displayed or stored.
 
 ---
 
@@ -324,10 +349,16 @@ rather than blurring the distinction.
 
 | Provider | Credentials | Temperature |
 |---|---|---|
-| `opencode_cli` | none; uses the local binary | **not supported** — the CLI has no temperature flag |
-| `openai_compatible` | key read from the env var named in `model.api_key_env` | sent in the request body when set |
+| `opencode_cli` | none; uses the local OpenCode binary (must be installed and signed in) | **not supported** — the CLI has no temperature flag |
+| `openai_compatible` | key read from the env var named in `model.api_key_env` (the shipped OpenRouter entry uses `OPENROUTER_API_KEY`) | sent in the request body when set |
 
-A config never contains a key, and `.env` is gitignored.
+A config never contains a key. `.env` and `.env.*` are gitignored **and are not
+loaded automatically** — export the variable in the shell that launches the
+interface. `configs/ui_providers.yaml` ships two enabled providers: the local
+OpenCode CLI and OpenRouter (`base_url: https://openrouter.ai/api/v1`,
+`api_key_env: OPENROUTER_API_KEY`). Its model ids and prices were verified
+against `https://openrouter.ai/api/v1/models` on 2026-11-24 and should be
+re-checked before a paid run.
 
 **Both case studies set `temperature: null`.** Even if a value were set, the
 manifest records it as `requested_unverified` or `not_supported`; the report may
@@ -405,13 +436,18 @@ These are stated once so that nothing below reads as more than it is.
 
 ## Keeping results for the final submission
 
-`runs/<run_id>/` (per-run artefacts) and `reports/` (composed per-study and
-comparison reports) are **gitignored**, so a commit or clone does not carry them.
-The cross-dataset material under `comparison/` is not gitignored. The required
-case-study results — the evaluated `runs/imdb_case_study` and
-`runs/phrasebank_75agree` directories and the composed reports you rely on — must
-therefore be preserved explicitly when the final submission is prepared. This
-project does not create a ZIP and does not assume a particular submission format.
+`reports/` (composed per-study and comparison reports), `inputs/`, and the blind
+text, per-call logs and remaining files of `runs/<run_id>/` are **gitignored**.
+The evaluated case-study evidence that reproduces the statistics is nevertheless
+**committed**: for `runs/imdb_case_study` and `runs/phrasebank_75agree` the
+tracked files are `predictions.csv`, `pilot/`, `sealed/benchmark.csv` and
+`results/` (`frozen_predictions.csv` plus the `t01`–`t16` tables). A clone
+therefore carries what is needed to inspect and reproduce the results without a
+model call. The cross-dataset material under `comparison/` is committed, as is
+the sanitized subset under `publication/`. The composed reports and the excluded
+observation text are not redistributed and must be preserved separately if you
+need them. This project does not create a ZIP and does not assume a particular
+submission format.
 
 ---
 

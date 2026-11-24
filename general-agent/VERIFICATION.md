@@ -29,8 +29,11 @@ file or a test. Two kinds of check are distinguished throughout.
 | The real three-step UI run stayed within its authorized caps | same-system | `tests/test_acceptance_simple_interface_run.py`; `runs/simple_interface_test/ui_authorization.json`, `manifest.json` |
 | The report composer presents; it never recomputes a statistic | same-system | `tests/test_report_boundary.py` |
 | No dataset name appears in the evaluation, qualitative or report code | same-system | `tests/test_genericity.py` |
+| The interface corrections recorded in `SPEC.md` v0.5 (blind-stage ID-intersection and label-exclusion policies, the real failed-prediction count, the single-study heading) are held by regression tests | same-system | `tests/test_blind.py::test_inner_join_policy_is_materialised_by_blind`, `::test_unknown_labels_are_excluded_by_blind_with_counts`; `tests/test_evaluate.py::test_evaluation_log_reports_the_real_failure_count`; `tests/test_report_reuse.py::test_study_report_matches_the_single_study_comparison_report` |
+| The report/PDF defects found in the manual acceptance run (binary misdescription, a spurious "weakest category", blank reference metadata, executive-summary heading spacing) are held by regression tests | same-system | `tests/test_report_defects.py` |
+| The six academic-report corrections (multiplicity wording, prediction-bias direction, share denominator, the missing-statistics claim, wide-table/PDF layout, the reproduction command) are held by regression tests | same-system | `tests/test_report_fixes.py`; `tests/test_acceptance_simple_interface_run.py::test_evaluation_and_study_report_completed` |
 | The shipped case-study runs and `comparison/` are read-only during a new run | same-system | `tests/test_ui_case_studies.py`; `tests/test_acceptance_new_user.py` |
-| M7 (McNemar cells) was found and corrected | **independent** (group) | `../mistakes.md` Part F |
+| GP-M7 (McNemar cells) was found and corrected | **independent** (group) | `../mistakes.md` Part F |
 
 ## 2. Implemented vs not implemented statistical methods
 
@@ -114,6 +117,30 @@ for that stage, so its exact classification-time hash is not recoverable.
    checks above are same-system. The only independent evidence is the earlier
    group project's verification pass, which covers the IMDb group numbers, not
    the PhraseBank run, the qualitative stage, or the comparison.
+6. **Open `t08` severity-label inconsistency.** For the binary IMDb run,
+   `runs/imdb_case_study/results/t08_disagreements.csv` labels all six
+   disagreements `adjacent`, while `t07_ordinal_errors.csv` and
+   `comparison/tables/cross_dataset_severity.csv` label them `opposite`. No metric
+   or count changes and the frozen CSV is unedited; `t07` and the cross-dataset
+   table are authoritative for severity. Recorded in
+   `ERROR_ANALYSIS_SUBMISSION.md` §8 and `publication/README.md`. No committed
+   test fails on it, so it is **not** currently guarded.
+
+## 6. Reproducing the same-system checks
+
+The same-system checks re-run without a model call:
+
+```bash
+cd general-agent
+uv run pytest tests/test_reproduce_case_studies.py tests/test_manifest_accounting.py tests/test_leakage.py
+```
+
+`tests/test_reproduce_case_studies.py` and
+`tests/test_acceptance_simple_interface_run.py` call `pytest.skip` when their
+committed run evidence (`runs/<run_id>/`, `runs/simple_interface_test/`) is
+absent, so a green run says nothing about those claims unless the case-study
+directories are present. `tests/test_manifest_accounting.py` does not skip: with
+no manifests it simply finds no cap violation.
 
 *Reviewed 2026-11-19. No prediction file, result table, or qualitative
 explanation was changed or regenerated to produce this record.*

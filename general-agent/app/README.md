@@ -9,7 +9,8 @@ and 09.
 ## Install and launch
 
 ```bash
-cd general-agent
+git clone <repository-url> my-analysis
+cd my-analysis/general-agent
 uv sync --extra ui --extra pdf --extra dev   # --extra pdf enables PDF export
 uv run streamlit run app/streamlit_app.py
 ```
@@ -17,13 +18,25 @@ uv run streamlit run app/streamlit_app.py
 Without `uv`:
 
 ```bash
-.venv/bin/pip install -e ".[ui]"
+cd general-agent
+python -m venv .venv
+.venv/bin/pip install -e ".[ui,pdf]"
 .venv/bin/streamlit run app/streamlit_app.py
 ```
 
-The interface binds to `127.0.0.1` only. It is a single-user tool; do not expose
-it on a network. The `ui` extra is optional, so the engine still installs and
-runs without Streamlit.
+To classify with your own OpenRouter key, export it in the same shell that starts
+Streamlit and select OpenRouter in the interface:
+
+```bash
+export OPENROUTER_API_KEY="sk-or-..."
+uv run streamlit run app/streamlit_app.py
+```
+
+`.env` files are gitignored and are **not loaded automatically** — only exported
+variables are visible. The interface binds to `127.0.0.1` only. It is a
+single-user tool; do not expose it on a network. The `ui` extra is optional, so
+the engine still installs and runs without Streamlit, and the OpenCode CLI is not
+required to launch the interface or inspect results.
 
 ## Two flows, one engine
 
@@ -160,6 +173,20 @@ The provider and model list is `configs/ui_providers.yaml`. The interface only
 offers models listed there and never accepts a key. For an `openai_compatible`
 provider it reports whether the named environment variable is present, never its
 value. To add a provider, copy a block in that file and set `enabled: true`.
+
+Two providers are enabled:
+
+- **OpenRouter (your own API key)** — `openai_compatible`, `base_url:
+  https://openrouter.ai/api/v1`, `api_key_env: OPENROUTER_API_KEY`. This is the
+  **default selection** in the Provider dropdown on a fresh session and works
+  with no OpenCode account. Export the key in the shell that launches the
+  interface (a `.env` file is not read automatically) and reload; if the key is
+  missing, the screen explains how to set it.
+- **OpenCode CLI (local)** — `opencode_cli`; uses the signed-in local CLI, which
+  must be installed and signed in. Select it manually in the Provider dropdown.
+
+Because the default is OpenRouter, the OpenCode CLI is not required to reach the
+first screen or inspect results.
 
 Temperature is not controlled: the OpenCode CLI has no temperature flag, so it is
 recorded as `not_requested` and the interface does not claim otherwise.

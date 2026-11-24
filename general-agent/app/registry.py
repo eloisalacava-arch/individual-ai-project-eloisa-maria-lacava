@@ -81,6 +81,21 @@ def credential_status(model_entry: dict, provider_entry: dict) -> tuple[str, boo
     return key_env, bool(key_env) and bool(os.environ.get(key_env))
 
 
+def missing_key_message(key_env: str) -> str:
+    """Clear, non-fatal guidance shown when a key-based provider has no key.
+
+    Returned as plain text; the views wrap it in Streamlit markdown. The exact
+    export command is included so it can be copied. This is a warning, not an
+    error: validation and sealing still work without a key.
+    """
+    return (
+        f"{key_env} is not set. Validation and sealing still work, but any model "
+        "call (classification or qualitative explanations) needs it. Export the "
+        "key in the shell that starts Streamlit and reload:  "
+        f'export {key_env}="your-key"'
+    )
+
+
 def model_block(provider_entry: dict, model_entry: dict) -> dict:
     """The ``model`` section of the generated config."""
     block = {

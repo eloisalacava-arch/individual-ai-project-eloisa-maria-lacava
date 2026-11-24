@@ -67,7 +67,9 @@ general-agent/                    the individual project
   configs/                        study configs and provider allow-list
   acceptance/                     synthetic UI acceptance kit
   comparison/                     cross-dataset tables, figures and report
-  runs/                           selected case-study evidence (gitignored)
+  runs/                           committed case-study result tables, frozen
+                                  predictions, sealed benchmarks and predictions;
+                                  blind text, logs and full runs are gitignored
   reports/                        original composed reports (gitignored)
   publication/                    sanitized reports, provenance and aggregate tables
 data/                             minimal project inputs
@@ -88,14 +90,15 @@ results/                          selected earlier group-project context
 | Cross-dataset report | [`general-agent/publication/reports/comparison/report.md`](general-agent/publication/reports/comparison/report.md) |
 | Verification evidence | [`general-agent/VERIFICATION.md`](general-agent/VERIFICATION.md) and the tests above |
 
-**Packaging note.** `general-agent/runs/`, `general-agent/reports/` and `general-agent/inputs/` are gitignored. A curated, sanitized subset is prepared under [`general-agent/publication/`](general-agent/publication/); the report links above point to that subset. The original run and report directories remain local and are not modified. These publication files are prepared in the working tree; they are not yet committed to GitHub.
+**Packaging note.** `general-agent/reports/` and `general-agent/inputs/` are gitignored, and the blind text, per-call logs and full run directories under `general-agent/runs/` are deliberately not redistributed. The evaluated case-study evidence needed to reproduce the statistics — `results/frozen_predictions.csv`, the `results/t01`–`t16` tables, `sealed/benchmark.csv`, `predictions.csv` and the pilot files for both studies — **is committed and travels with a clone**. A curated, sanitized subset of provenance, context and reports is also committed under [`general-agent/publication/`](general-agent/publication/); the report links above point to that subset. The original run and report directories remain local and are not modified.
 
 ## 4. Install and launch
 
-Requirements: Python 3.11 or newer. The project is tested with `uv`; a plain `venv` works too.
+Requirements: Python 3.11 or newer. The project is tested with `uv`; a plain `venv` works too. The agent is self-contained under `general-agent/`.
 
 ```bash
-cd general-agent
+git clone <repository-url> my-analysis
+cd my-analysis/general-agent
 uv sync --extra ui --extra pdf --extra dev
 uv run streamlit run app/streamlit_app.py
 ```
@@ -103,24 +106,37 @@ uv run streamlit run app/streamlit_app.py
 Without `uv`:
 
 ```bash
-cd general-agent
+git clone <repository-url> my-analysis
+cd my-analysis/general-agent
 python -m venv .venv
 .venv/bin/pip install -e ".[ui,pdf,dev]"
 .venv/bin/streamlit run app/streamlit_app.py
 ```
 
-The interface binds to `127.0.0.1` only and is intended for single-user local use. Opening the app makes no model call. A model call happens only after the review step and the run authorization.
+The interface binds to `127.0.0.1` only and is intended for single-user local use. It starts with **no provider installed and no model call**: the bundled case studies open read-only, and a model call happens only after the review step and the run authorization. The OpenCode CLI is **not** required to launch the interface or inspect results — only to classify through the `opencode_cli` provider.
 
 ## 5. API provider setup
 
-The default provider is `opencode_cli`, which uses the signed-in local OpenCode CLI. It stores no key in this repository. The case studies used the model string `openrouter/deepseek/deepseek-v4.1-flash-1017`.
+Two providers are selectable in [`general-agent/configs/ui_providers.yaml`](general-agent/configs/ui_providers.yaml):
 
-Providers and models are allow-listed in [`general-agent/configs/ui_providers.yaml`](general-agent/configs/ui_providers.yaml). An `openai_compatible` entry is included but disabled as an example. To use it, set `enabled: true`, provide the correct `base_url`, and set `api_key_env` to the **name** of an environment variable. The key is read from that environment variable; the interface never accepts or displays a key.
+- **OpenRouter (your own API key)** — `openai_compatible`, enabled, and the **default selection**. Use this to run the agent with your own credentials and no OpenCode account.
+- **OpenCode CLI (local)** — `opencode_cli`, enabled. Uses the signed-in local OpenCode CLI; it stores no key in this repository but does require the OpenCode CLI to be installed and signed in. Select it manually in the Provider dropdown to use it.
 
-- `.env` and `.env.*` are gitignored.
+To classify with your own OpenRouter key, export it in the **same shell** that starts Streamlit:
+
+```bash
+export OPENROUTER_API_KEY="sk-or-..."
+cd general-agent
+uv run streamlit run app/streamlit_app.py
+```
+
+OpenRouter is already selected in the interface's Provider dropdown by default, so the key is picked up without changing any setting. The key is read from the named environment variable; it is never accepted, displayed, logged or stored.
+
+- `.env` and `.env.*` are gitignored and are **not loaded automatically** — only variables exported in the shell that launched Streamlit are visible.
 - No credentials belong in a config file.
 - Temperature is recorded as `not_requested`; it is not controlled by this setup.
 - The interface only reports whether the named environment variable is present.
+- The OpenRouter model ids and prices in the allow-list were verified against `https://openrouter.ai/api/v1/models` on 2026-11-24; re-check the catalogue before a run, and to point at a different OpenAI-compatible endpoint edit `base_url`, `api_key_env` and `models[].name` in the same file.
 
 ## 6. Case studies and key results
 
@@ -148,7 +164,7 @@ uv run python scripts/09_report.py --comparison
 ```
 
 - `uv run pytest` uses a stub provider and makes no model call.
-- `tests/test_reproduce_case_studies.py` recomputes accuracy and kappa from `runs/*/results/frozen_predictions.csv` and `runs/*/sealed/benchmark.csv`. It **skips** if those files are absent, so the selected run evidence must be tracked for the check to mean anything.
+- `tests/test_reproduce_case_studies.py` recomputes accuracy and kappa from `runs/*/results/frozen_predictions.csv` and `runs/*/sealed/benchmark.csv`. It **skips** if those files are absent; in this repository that evidence is committed, so the check runs on a fresh clone (`3 passed`).
 - `09_report.py` composes reports from existing result tables and makes no model call.
 - `05_evaluate.py` and `06_disagreements.py` are deterministic but write into `runs/<run_id>/`; copy a run directory first if you do not want to touch the shipped evidence.
 - Avoid `03_pilot.py`, `04_classify.py` and `08_qualitative.py` unless you intend to make paid calls and have approved the pilot and caps.
@@ -172,7 +188,7 @@ These commands reproduce the **statistics**. They do not reconstruct the origina
 
 The individual deliverable is `general-agent/`: the agent, its interface, tests, case-study runs, composed reports and the two submission documents.
 
-The earlier group project is context only. Its files are `mistakes.md`, [`general-agent/publication/context/verification_findings_public.md`](general-agent/publication/context/verification_findings_public.md) and [`general-agent/publication/context/agent_autonomous_decisions.md`](general-agent/publication/context/agent_autonomous_decisions.md). They explain why the individual agent was designed as it was, and they supply the independent verification evidence for the group-project numbers. They are not individual-project results. The verification copy has annotator initials redacted; the original `results/verification_findings.md` remains unchanged.
+The earlier group project is context only. Its files are `mistakes.md`, [`general-agent/publication/context/verification_findings_public.md`](general-agent/publication/context/verification_findings_public.md) and [`general-agent/publication/context/agent_autonomous_decisions.md`](general-agent/publication/context/agent_autonomous_decisions.md). They explain why the individual agent was designed as it was, and they supply the independent verification evidence for the group-project numbers. They are not individual-project results. The verification copy has annotator initials redacted; the original local `results/verification_findings.md` is unchanged and is not part of the distributed repository.
 
 In the Error Analysis, individual errors are prefixed `GA-` and group-project errors are prefixed `GP-`. That distinction is deliberate: the two registers reuse local IDs such as M1, M2 and M10.
 

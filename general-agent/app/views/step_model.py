@@ -41,8 +41,7 @@ def render() -> None:
         if present:
             st.success(f"Credential available: environment variable {key_env} is set.")
         else:
-            st.error(f"Credential missing: environment variable {key_env} is not set. "
-                     "Export it in the shell that starts the interface, then reload.")
+            st.warning(registry.missing_key_message(key_env))
     st.caption("Temperature: not controlled by this provider. Recorded as "
                "`not_requested`.")
     st.code(model_name, language=None)
@@ -89,7 +88,7 @@ def render() -> None:
         "I understand that the observation text will be sent to this provider.",
         "consent")
 
-    ok = present and st.session_state["consent"]
+    ok = bool(st.session_state["consent"])
     if st.button("Continue to validation", type="primary", disabled=not ok):
         go(5)
     if not present:

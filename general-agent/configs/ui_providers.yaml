@@ -19,6 +19,37 @@
 # ---------------------------------------------------------------------------
 
 providers:
+  # The first enabled provider is the one the interface selects by default on a
+  # fresh session. Keep OpenRouter first so a new user is prompted for an API key
+  # rather than a local OpenCode account; the OpenCode CLI stays fully selectable.
+  - id: openrouter
+    label: "OpenRouter (your own API key)"
+    provider: openai_compatible
+    enabled: true
+    base_url: "https://openrouter.ai/api/v1"
+    api_key_env: "OPENROUTER_API_KEY"
+    access_note: >-
+      Reads the API key from the OPENROUTER_API_KEY environment variable. No
+      OpenCode account is needed. Export the key in the shell that starts the
+      interface; a .env file is not read automatically.
+    models:
+      # Model ids and prices verified against https://openrouter.ai/api/v1/models
+      # (2026-11-24). Prices are a cost guardrail in USD per million tokens, not
+      # a bill. Re-check the catalogue before a run; OpenRouter ids and prices
+      # change over time.
+      - name: "deepseek/deepseek-chat-v3.1"
+        label: "DeepSeek V3.1 (OpenRouter)"
+        price_per_million:
+          input: 0.25
+          output: 0.95
+        max_calls: 500
+      - name: "deepseek/deepseek-v3.2"
+        label: "DeepSeek V3.2 (OpenRouter)"
+        price_per_million:
+          input: 0.26
+          output: 0.38
+        max_calls: 500
+
   - id: opencode
     label: "OpenCode CLI (local)"
     provider: opencode_cli
@@ -39,21 +70,3 @@ providers:
           input: 0.14
           output: 0.28
         max_calls: 500
-
-  - id: openai-example
-    label: "OpenAI-compatible endpoint (configure me)"
-    provider: openai_compatible
-    enabled: false
-    base_url: "https://api.example.com/v1"
-    api_key_env: "EXAMPLE_API_KEY"
-    access_note: >-
-      The key is read from the server environment variable named above and is
-      never entered or displayed here. Set enabled: true and correct base_url
-      and api_key_env before use.
-    models:
-      - name: "example/model"
-        label: "Example model"
-        price_per_million:
-          input: 1.0
-          output: 2.0
-        max_calls: 200

@@ -311,7 +311,7 @@ def _qualitative_form(run_id: str, directory, config_path, n_disagreements: int,
         model = registry.find_model(provider_id, model_name)
         key_env, present = registry.credential_status(model, provider)
         if key_env and not present:
-            st.error(f"Credential missing: {key_env} is not set.")
+            st.warning(registry.missing_key_message(key_env))
 
         st.session_state.setdefault("qu_sample_n", min(25, max(n_disagreements, 1)))
         st.session_state.setdefault("qu_control_n", 10)
