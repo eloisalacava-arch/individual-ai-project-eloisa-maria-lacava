@@ -113,7 +113,7 @@ python -m venv .venv
 .venv/bin/streamlit run app/streamlit_app.py
 ```
 
-The interface binds to `127.0.0.1` only and is intended for single-user local use. It starts with **no provider installed and no model call**: the bundled case studies open read-only, and a model call happens only after the review step and the run authorization. The OpenCode CLI is **not** required to launch the interface or inspect results — only to classify through the `opencode_cli` provider.
+The interface binds to `127.0.0.1` only and is intended for single-user local use. It launches **without any API credentials and makes no model call**: the bundled case studies open read-only, and classification requires a configured provider key, so a model call happens only after the review step and the run authorization. The OpenCode CLI is **not** required to launch the interface or inspect results — only to classify through the `opencode_cli` provider.
 
 ## 5. API provider setup
 
@@ -122,11 +122,10 @@ Two providers are selectable in [`general-agent/configs/ui_providers.yaml`](gene
 - **OpenRouter (your own API key)** — `openai_compatible`, enabled, and the **default selection**. Use this to run the agent with your own credentials and no OpenCode account.
 - **OpenCode CLI (local)** — `opencode_cli`, enabled. Uses the signed-in local OpenCode CLI; it stores no key in this repository but does require the OpenCode CLI to be installed and signed in. Select it manually in the Provider dropdown to use it.
 
-To classify with your own OpenRouter key, export it in the **same shell** that starts Streamlit:
+To classify with your own OpenRouter key, export it in the **same shell** that starts Streamlit, from the `general-agent/` directory created in step 4:
 
 ```bash
 export OPENROUTER_API_KEY="sk-or-..."
-cd general-agent
 uv run streamlit run app/streamlit_app.py
 ```
 
