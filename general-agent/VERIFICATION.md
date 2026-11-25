@@ -142,5 +142,23 @@ absent, so a green run says nothing about those claims unless the case-study
 directories are present. `tests/test_manifest_accounting.py` does not skip: with
 no manifests it simply finds no cap violation.
 
+## 7. External installation and interface smoke test (not statistical verification)
+
+An external tester independently followed the public GitHub README and reported:
+
+- the repository structure was understandable;
+- installation and Streamlit start-up succeeded;
+- the interface displayed and navigated correctly.
+
+The tester did **not** test classification, API calls, or statistical accuracy.
+
+This is an external **installation and interface** check only. It does not
+recompute or confirm any statistic, prediction, reference label, or model output,
+so it is **not** independent statistical or model verification and does not
+change the internal-versus-independent distinction above. The two clarity
+suggestions it produced — installation-directory wording and a demonstration
+dataset — are addressed in the READMEs; the demonstration data are the existing
+synthetic files under `acceptance/`.
+
 *Reviewed 2026-11-19. No prediction file, result table, or qualitative
 explanation was changed or regenerated to produce this record.*

@@ -15,10 +15,9 @@ uv sync --extra ui --extra pdf --extra dev   # --extra pdf enables PDF export
 uv run streamlit run app/streamlit_app.py
 ```
 
-Without `uv`:
+Without `uv` (from `my-analysis/general-agent/`, reached above):
 
 ```bash
-cd general-agent
 python -m venv .venv
 .venv/bin/pip install -e ".[ui,pdf]"
 .venv/bin/streamlit run app/streamlit_app.py

@@ -34,6 +34,8 @@ cd my-analysis/general-agent
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 ```
 
+The `cd` leaves the shell in `my-analysis/general-agent/`; the remaining commands below run from that directory.
+
 Python 3.11 or newer. Runtime dependencies: `pandas`, `pyyaml`, `jsonschema`.
 The HTTP provider uses only the standard library.
 

@@ -113,6 +113,8 @@ python -m venv .venv
 .venv/bin/streamlit run app/streamlit_app.py
 ```
 
+Both installation paths leave the shell in `my-analysis/general-agent/`, where every later command in this guide runs. If you clone without the `my-analysis` destination name, use the folder Git created.
+
 The interface binds to `127.0.0.1` only and is intended for single-user local use. It launches **without any API credentials and makes no model call**: the bundled case studies open read-only, and classification requires a configured provider key, so a model call happens only after the review step and the run authorization. The OpenCode CLI is **not** required to launch the interface or inspect results — only to classify through the `opencode_cli` provider.
 
 ## 5. API provider setup
@@ -154,6 +156,8 @@ Exact values are in `t02_accuracy.csv` and `t03_kappa.csv` under each run's `res
 
 ## 7. Checking existing results without paid model calls
 
+From the repository root (`my-analysis/`):
+
 ```bash
 cd general-agent
 uv run pytest
@@ -169,6 +173,16 @@ uv run python scripts/09_report.py --comparison
 - Avoid `03_pilot.py`, `04_classify.py` and `08_qualitative.py` unless you intend to make paid calls and have approved the pilot and caps.
 
 These commands reproduce the **statistics**. They do not reconstruct the original classification run: that would require the excluded observation text, a configured provider, paid calls and a new pilot authorization. The public package is a statistical verification package, not a self-contained classification rerun.
+
+### Preview the interface with the synthetic files (no model call)
+
+`general-agent/acceptance/` already contains a complete fictional demonstration set: [`observations.csv`](general-agent/acceptance/observations.csv) (22 rows; `ticket_id`, `observation`, `channel`) and [`human_labels.csv`](general-agent/acceptance/human_labels.csv) (22 rows; `ref_id`, `human_label` with raw codes `POS` / `NEU` / `NEG`). To exercise the interface without any model call:
+
+1. Start the interface and choose **Advanced mode**.
+2. Complete steps 1–5 only: upload both files, confirm the columns, define the three categories and map the codes, choose a provider and caps, then run **Validate and seal**. These stages run the audit and sealing locally and send nothing to a provider.
+3. **Stop before step 6 (Classify).** The five-row pilot and the full classification are the only stages that send observation text to a provider, and they require a configured provider key or a signed-in OpenCode CLI. Without a credential you can inspect `decisions.json`, `audit.txt`, `blind/blind.csv`, `sealed/benchmark.csv` and the rendered prompt, but no predictions or metrics are produced.
+
+**Warning.** In the default Simple flow, authorizing **Analyze & Download** runs validation and sealing and then starts the five-row pilot immediately, and **Advanced step 6 (Classify)** starts the pilot too — both can trigger model calls (and cost) on a configured provider. Do not use them for a zero-call preview. To see a populated interface with no upload and no credential, click **Case studies**: the two committed runs are read-only and need no key.
 
 ## 8. Known limitations
 

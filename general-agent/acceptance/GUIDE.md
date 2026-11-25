@@ -27,6 +27,8 @@ Part 2.
 
 ## Before you start
 
+From the repository root (`my-analysis/`):
+
 ```bash
 cd general-agent
 uv sync --extra ui --extra pdf --extra dev
@@ -37,6 +39,12 @@ Open **http://127.0.0.1:8501**. The interface binds to localhost only. It starts
 in **Simple mode**; Part 1 uses it.
 
 Optional: export the credential named by your chosen provider before launching.
+
+**No-cost preview (no model call).** Steps 1–5 of Part 2 — Data → Columns →
+Categories → Model and limits → **Validate and seal** — run the audit and sealing
+locally and make no model call. The five-row pilot and classification (the end of
+Part 1, or Part 2 step 6) are the only stages that send text to a provider and may
+incur cost; stop before them for a zero-call inspection.
 
 ---
 
