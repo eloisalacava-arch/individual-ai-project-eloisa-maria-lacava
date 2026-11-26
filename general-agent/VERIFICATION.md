@@ -2,8 +2,11 @@
 
 **Project:** general-agent (individual project), plus the earlier IMDb group
 project where it provides independent evidence.
-**Rule:** no live model calls, no statistic recomputed here; every claim names a
-file or a test. Two kinds of check are distinguished throughout.
+**Rule:** no live model calls; for §§1–7 no statistic is recomputed and every
+claim names a file or a test. Two kinds of check are distinguished throughout
+(independent and same-system). §8, added 2026-11-26, is different in kind: it
+records **AI-assisted arithmetic** and **manual** interface checks, each labelled
+there, and it is **not** independent verification.
 
 - **Independent** — recomputed by separate code written without reusing the
   project's analysis code, and compared only afterwards. In this repository that
@@ -160,5 +163,81 @@ suggestions it produced — installation-directory wording and a demonstration
 dataset — are addressed in the READMEs; the demonstration data are the existing
 synthetic files under `acceptance/`.
 
+## 8. User-led interface review and AI-assisted comparison of results and reports (26 November 2026; not independent verification)
+
+This section integrates `VERIFICATION_ADDENDUM.md`. It records a second, later
+review: a **user-led** interface walk-through by the project author, combined with
+**AI-assisted** arithmetic and prose-to-table comparison. Neither is independent
+verification. Where §7 records an external tester's installation smoke test, this
+section records the author's own review; the two do not overlap.
+
+Each row labels who did the check. **Manual** = the project author operated the
+interface, exported the reports and shared a screenshot. **AI-assisted** = an
+assistant re-derived arithmetic from the committed tables, or read the exported
+PDFs and compared them against those tables. Unlike §§1–7, this section contains
+AI-assisted arithmetic, so it re-derives numbers rather than only naming them; the
+source table is named for each row so the arithmetic can be checked by hand.
+
+| Check | Method | Source | Finding |
+|---|---|---|---|
+| Interface startup | **Manual** (author launched Streamlit and shared a screenshot) | expected Upload, Review, Analyze & Download, Advanced mode, Case studies | Interface loaded; navigation appeared |
+| Case-study access | **Manual** (author opened both existing case studies) | IMDb and Financial PhraseBank | Both displayed without a new classification |
+| IMDb accuracy | **AI-assisted** arithmetic: 194/200; confusion-matrix diagonal 101+93 | `runs/imdb_case_study/results/t02_accuracy.csv`, `t04_confusion_matrix.csv` and the IMDb PDF | 97.00%, consistent |
+| PhraseBank accuracy | **AI-assisted** arithmetic: 274/300; diagonal 37+171+66 | the PhraseBank `t02_accuracy.csv`, `t04_confusion_matrix.csv` and PDF | 91.33%, consistent |
+| Sample accounting | **AI-assisted** comparison of analysed, dropped and excluded counts | both `t01_join_and_sample.csv` files | 200 and 300 analysed; zero dropped or excluded failed predictions |
+| Cohen's kappa | **AI-assisted** comparison of PDF values with the committed tables (no fresh re-estimation) | both `t03_kappa.csv` files | Rounded values consistent: 0.940 and 0.841 |
+| Disagreement structure | **AI-assisted** comparison of report summaries with the result tables | the study and cross-dataset reports | IMDb: 6/200; PhraseBank: 26/300 (23 adjacent, 3 opposite) |
+| Report export | **Manual** export; **AI-assisted** inspection | IMDb PDF (10 pages), PhraseBank PDF (8 pages), cross-dataset PDF (6 pages) | All opened and contained tables, figures, interpretation and limitations |
+
+**Errors and discrepancies identified.**
+
+- **IMDb severity mismatch — reconfirmed, no new detail.** The six binary
+  disagreement rows in `runs/imdb_case_study/results/t08_disagreements.csv` are
+  labelled `adjacent`, while `t07_ordinal_errors.csv` and the cross-dataset
+  severity table label all six `opposite`. §5.6 above already records this, and
+  this review reached the same conclusion without adding anything new. The
+  maximum-distance interpretation is appropriate for a binary classification; the
+  inconsistency affects row-level severity labels only, not accuracy, kappa or the
+  disagreement count. The issue remains unresolved and unguarded.
+- **IMDb qualitative interpretation mismatch (new, §5 does not cover it).** The
+  IMDb PDF (page 9) states that `Other` appeared in *both* the disagreements and
+  the control. Its preceding table (page 8), and
+  `runs/imdb_case_study/qualitative/tables/q07_reason_contrast.csv`, show `Other`
+  at 0.0% of disagreements and 10.0% of controls — it appears only in the control.
+  The narrative therefore does not match its own table. This was found by reading
+  the generated prose against its supporting table rather than trusting the prose.
+  It is not currently held by a regression test: the defects guarded by
+  `tests/test_report_defects.py` are different ones.
+- **Minor report formatting (new).** The PhraseBank PDF has an empty bullet in its
+  study-description section (page 2), and the cross-dataset comparison PDF has a
+  partially overlapping chart legend (page 6). Presentation only; no reported
+  statistic is affected.
+
+**Automated testing and limitations.** The project's recorded final offline suite
+is reported at **353 passed, zero failed, zero skipped**. This figure is quoted
+from the recorded run report and was **not** re-run for this review; it is not
+re-derived here and no test-run report for it is committed in this repository. The
+same-system tests of §1 remain the guards for the label-separation and
+freeze-before-benchmark safeguards.
+
+This review had limits: the project author did **not** carry out a fresh
+synthetic-data upload-and-seal test, and did not manually inspect every prompt and
+model request. No new paid classification calls, no full end-to-end rerun, no
+independent label adjudication and no external statistical audit were performed.
+Accuracy measures agreement with the chosen human reference, not proven
+classification truth. The PDF/CSV checks were **AI-assisted**, not an unaided
+independent verification by the author.
+
+**Conclusion.** The checked numerical results match their underlying committed
+tables, and the interface and exported PDF reports were accessible. The two IMDb
+mismatches show that plausible agent-generated prose and row-level outputs still
+need checking against the underlying evidence. A green test suite supports
+internal consistency but does not replace critical human review or independent
+statistical validation.
+
 *Reviewed 2026-11-19. No prediction file, result table, or qualitative
 explanation was changed or regenerated to produce this record.*
+
+*§8 added 2026-11-26 from `VERIFICATION_ADDENDUM.md`. Documentation only; no
+source code, model setting, prediction, label or statistical result table was
+altered.*
